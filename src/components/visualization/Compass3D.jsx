@@ -5,6 +5,7 @@ import { OrbitControls, Stars, Text, Html } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { parties } from '../../data/parties';
+import { leaders } from '../../data/leaders';
 
 // User Star Component - Glowing gold star
 function UserStar({ position }) {
@@ -67,6 +68,44 @@ function PartyStar({ party }) {
           <div className="bg-gray-900/95 px-3 py-2 rounded text-white text-xs font-semibold whitespace-nowrap pointer-events-none border border-gray-700">
             <div className="font-bold">{party.abbreviation}</div>
             <div className="text-gray-400 text-xs">{party.name}</div>
+          </div>
+        </Html>
+      )}
+    </group>
+  );
+}
+
+// Leader Star Component - Octahedron (diamond) shaped markers for individual leaders
+function LeaderStar({ leader }) {
+  const meshRef = useRef();
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <group position={[leader.position.statism, leader.position.recognition, leader.position.sid]}>
+      <mesh
+        ref={meshRef}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      >
+        {/* Octahedron geometry for diamond shape */}
+        <octahedronGeometry args={[0.05, 0]} />
+        <meshStandardMaterial
+          color={leader.color}
+          emissive={leader.color}
+          emissiveIntensity={hovered ? 0.7 : 0.4}
+          metalness={0.8}
+          roughness={0.2}
+        />
+      </mesh>
+
+      {hovered && (
+        <Html distanceFactor={3}>
+          <div className="bg-gray-900/95 px-3 py-2 rounded text-white text-xs font-semibold whitespace-nowrap pointer-events-none border border-gray-700">
+            <div className="font-bold">{leader.name}</div>
+            <div className="text-gray-400 text-xs">{leader.role}</div>
+            <div className="text-gray-500 text-xs mt-1">
+              {parties.find(p => p.id === leader.partyId)?.abbreviation || leader.partyId.toUpperCase()}
+            </div>
           </div>
         </Html>
       )}
@@ -141,7 +180,7 @@ function GridPlane() {
 }
 
 // Main Compass3D Component
-export default function Compass3D({ userPosition, showParties = false }) {
+export default function Compass3D({ userPosition, showParties = false, showLeaders = false }) {
   return (
     <div className="w-full h-full">
       <Canvas
@@ -205,6 +244,11 @@ export default function Compass3D({ userPosition, showParties = false }) {
         {/* Party positions (if enabled) */}
         {showParties && parties.map((party) => (
           <PartyStar key={party.id} party={party} />
+        ))}
+
+        {/* Leader positions (if enabled) */}
+        {showLeaders && leaders.map((leader) => (
+          <LeaderStar key={leader.id} leader={leader} />
         ))}
 
         {/* Controls */}

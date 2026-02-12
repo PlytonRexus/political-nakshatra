@@ -12,6 +12,7 @@ const initialState = {
   responses: {}, // { questionId: likertValue }
   results: null, // { statism, recognition, sid }
   showParties: false,
+  showLeaders: false,
   isComplete: false,
   startTime: null,
 };
@@ -22,6 +23,7 @@ const ACTIONS = {
   SET_CURRENT_INDEX: 'SET_CURRENT_INDEX',
   CALCULATE_RESULTS: 'CALCULATE_RESULTS',
   TOGGLE_PARTIES: 'TOGGLE_PARTIES',
+  TOGGLE_LEADERS: 'TOGGLE_LEADERS',
   RESET: 'RESET',
   LOAD_SAVED_STATE: 'LOAD_SAVED_STATE',
   SET_START_TIME: 'SET_START_TIME',
@@ -57,6 +59,12 @@ function quizReducer(state, action) {
       return {
         ...state,
         showParties: !state.showParties,
+      };
+
+    case ACTIONS.TOGGLE_LEADERS:
+      return {
+        ...state,
+        showLeaders: !state.showLeaders,
       };
 
     case ACTIONS.RESET:
@@ -144,6 +152,10 @@ export function QuizProvider({ children }) {
     dispatch({ type: ACTIONS.TOGGLE_PARTIES });
   };
 
+  const toggleLeaders = () => {
+    dispatch({ type: ACTIONS.TOGGLE_LEADERS });
+  };
+
   const resetQuiz = () => {
     localStorage.removeItem(STORAGE_KEY);
     dispatch({ type: ACTIONS.RESET });
@@ -205,6 +217,7 @@ export function QuizProvider({ children }) {
     responses: state.responses,
     results: state.results,
     showParties: state.showParties,
+    showLeaders: state.showLeaders,
     isComplete: state.isComplete,
     startTime: state.startTime,
 
@@ -213,6 +226,7 @@ export function QuizProvider({ children }) {
     setCurrentIndex,
     calculateAndSetResults,
     toggleParties,
+    toggleLeaders,
     resetQuiz,
     goToNextQuestion,
     goToPreviousQuestion,

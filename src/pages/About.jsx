@@ -1,6 +1,6 @@
 // About Page - Methodology and information
 
-import { BookOpen, Target, Database, Shield } from 'lucide-react';
+import { BookOpen, Target, Database, Shield, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function About() {
@@ -139,8 +139,8 @@ export function About() {
                 unique political stance
               </li>
               <li>
-                <strong>Compare with parties</strong> (optional) to see which major Indian political
-                parties are closest to your position
+                <strong>Compare with parties and leaders</strong> (optional) to see which major Indian
+                political parties and individual leaders are closest to your position
               </li>
             </ol>
           </div>
@@ -160,6 +160,76 @@ export function About() {
             </p>
             <p className="text-sm text-gray-400">
               Parties included: BJP, Congress, AAP, BSP, TMC, CPI(M), SP, and DMK.
+            </p>
+          </div>
+        </section>
+
+        {/* Leader Positions */}
+        <section className="card mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <User className="text-purple-400" size={32} />
+            <h2 className="text-2xl font-bold text-white">Leader Positions</h2>
+          </div>
+          <div className="space-y-4 text-gray-300">
+            <p>
+              In addition to political parties, you can compare your position with individual political leaders.
+              Leader positions are estimated based on their personal policy record, public statements, and
+              governance actions during their tenure.
+            </p>
+            <p>
+              <strong>Why leaders differ from their parties:</strong> A leader's position may differ from their
+              party's average position based on their individual emphasis, governance style, and policy priorities.
+              For example, a leader might be more statist or less particularist than their party's overall stance.
+            </p>
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold text-white mb-3">Included Leaders:</h3>
+              <div className="grid md:grid-cols-2 gap-3 text-sm text-gray-400">
+                <div>
+                  <h4 className="font-semibold text-gray-300 mb-2">National Leaders</h4>
+                  <ul className="space-y-1">
+                    <li>• Narendra Modi (Prime Minister)</li>
+                    <li>• Rahul Gandhi (Leader of Opposition)</li>
+                    <li>• Arvind Kejriwal (AAP Convener)</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-300 mb-2">Regional Leaders</h4>
+                  <ul className="space-y-1">
+                    <li>• Mamata Banerjee (West Bengal)</li>
+                    <li>• M.K. Stalin (Tamil Nadu)</li>
+                    <li>• Akhilesh Yadav (Uttar Pradesh)</li>
+                    <li>• Mayawati (Bahujan Politics)</li>
+                    <li>• Nitish Kumar (Bihar)</li>
+                    <li>• Yogi Adityanath (Uttar Pradesh)</li>
+                    <li>• Chandrababu Naidu (Andhra Pradesh)</li>
+                    <li>• Sharad Pawar (Maharashtra)</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-300 mb-2">Cabinet Ministers</h4>
+                  <ul className="space-y-1">
+                    <li>• Amit Shah (Home Minister)</li>
+                    <li>• Rajnath Singh (Defence Minister)</li>
+                    <li>• Nirmala Sitharaman (Finance Minister)</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-300 mb-2">Historical Figures</h4>
+                  <ul className="space-y-1">
+                    <li>• Mulayam Singh Yadav (SP Founder)</li>
+                    <li>• M. Karunanidhi (DMK Leader)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <p className="text-sm text-gray-400 mt-4">
+              Leaders are represented as diamond-shaped (octahedron) markers in the 3D visualization,
+              distinct from the spherical party markers. Toggle the "Show Leaders" button on the results
+              page to see them.
+            </p>
+            <p className="text-xs text-gray-500 italic mt-2">
+              Note: Leader positions are approximations based on publicly available information and policy
+              analysis. They are meant to provide context and comparison, not definitive political categorizations.
             </p>
           </div>
         </section>

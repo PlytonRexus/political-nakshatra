@@ -3,15 +3,17 @@
 import { useEffect, Suspense, lazy } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuiz } from '../contexts/QuizContext';
-import { getAxisLabel, getAxisDescription } from '../utils/scoring';
-import { Share2, RefreshCw, Eye, EyeOff } from 'lucide-react';
+import { getAxisLabel, getAxisDescription, calculateDistance } from '../utils/scoring';
+import { getLeadersByDistance } from '../data/leaders';
+import { parties } from '../data/parties';
+import { Share2, RefreshCw, Eye, EyeOff, User } from 'lucide-react';
 
 // Lazy load the 3D compass for better performance
 const Compass3D = lazy(() => import('../components/visualization/Compass3D'));
 
 export function Results() {
   const navigate = useNavigate();
-  const { results, isComplete, resetQuiz, showParties, toggleParties } = useQuiz();
+  const { results, isComplete, resetQuiz, showParties, toggleParties, showLeaders, toggleLeaders } = useQuiz();
 
   useEffect(() => {
     // Redirect to quiz if not complete
@@ -23,6 +25,9 @@ export function Results() {
   if (!results) {
     return null; // Will redirect
   }
+
+  // Calculate closest leaders
+  const closestLeaders = getLeadersByDistance(results, calculateDistance).slice(0, 5);
 
   const handleRestart = () => {
     if (window.confirm('Are you sure you want to restart the quiz? Your current results will be lost.')) {
@@ -67,17 +72,26 @@ export function Results() {
                 <div className="text-gray-400">Loading 3D visualization...</div>
               </div>
             }>
-              <Compass3D userPosition={results} showParties={showParties} />
+              <Compass3D userPosition={results} showParties={showParties} showLeaders={showLeaders} />
             </Suspense>
 
-            {/* Toggle Party Positions Button */}
-            <button
-              onClick={toggleParties}
-              className="absolute top-6 right-6 flex items-center gap-2 px-4 py-2 bg-gray-800/80 hover:bg-gray-700/80 text-white rounded-lg transition-all backdrop-blur-sm"
-            >
-              {showParties ? <EyeOff size={18} /> : <Eye size={18} />}
-              {showParties ? 'Hide' : 'Show'} Party Positions
-            </button>
+            {/* Toggle Buttons */}
+            <div className="absolute top-6 right-6 flex flex-col gap-2">
+              <button
+                onClick={toggleParties}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-800/80 hover:bg-gray-700/80 text-white rounded-lg transition-all backdrop-blur-sm"
+              >
+                {showParties ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showParties ? 'Hide' : 'Show'} Parties
+              </button>
+              <button
+                onClick={toggleLeaders}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-800/80 hover:bg-gray-700/80 text-white rounded-lg transition-all backdrop-blur-sm"
+              >
+                {showLeaders ? <EyeOff size={18} /> : <User size={18} />}
+                {showLeaders ? 'Hide' : 'Show'} Leaders
+              </button>
+            </div>
           </div>
 
           <p className="text-sm text-gray-500 text-center mt-2">
@@ -126,6 +140,61 @@ export function Results() {
             </p>
           </div>
         </div>
+
+        {/* Closest Leaders Section */}
+        {showLeaders && (
+          <div className="card mb-8">
+            <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+              <User size={24} />
+              Closest Political Leaders
+            </h3>
+            <p className="text-gray-400 mb-6">
+              Based on your political position, here are the leaders closest to you in the 3D political space:
+            </p>
+            <div className="space-y-4">
+              {closestLeaders.map((leader, index) => {
+                const party = parties.find(p => p.id === leader.partyId);
+                return (
+                  <div
+                    key={leader.id}
+                    className="flex items-start gap-4 p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-gray-600 transition-all"
+                  >
+                    <div className="flex-shrink-0">
+                      <div className="text-3xl font-bold text-gray-500">#{index + 1}</div>
+                    </div>
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="text-lg font-bold text-white">{leader.name}</h4>
+                        <span
+                          className="px-2 py-0.5 text-xs font-semibold rounded"
+                          style={{ backgroundColor: `${leader.color}20`, color: leader.color }}
+                        >
+                          {party?.abbreviation || leader.partyId.toUpperCase()}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-400 mb-2">{leader.role}</p>
+                      <div className="text-xs text-gray-500">
+                        Distance: {leader.distance.toFixed(3)} • Region: {leader.region}
+                      </div>
+                      {leader.ideology && (
+                        <div className="mt-2 flex flex-wrap gap-1">
+                          {leader.ideology.map((tag, i) => (
+                            <span key={i} className="px-2 py-0.5 bg-gray-700 text-gray-300 text-xs rounded">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <p className="text-sm text-gray-500 mt-4 italic">
+              Note: Leader positions are estimates based on their policy records, public statements, and governance actions.
+            </p>
+          </div>
+        )}
 
         {/* Actions */}
         <div className="flex flex-wrap justify-center gap-4">
