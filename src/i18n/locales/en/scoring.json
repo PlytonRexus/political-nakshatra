@@ -1,0 +1,56 @@
+{
+  "axes": {
+    "statism": {
+      "name": "Statism",
+      "labels": {
+        "veryHigh": "Very High Statism",
+        "moderatelyHigh": "Moderately High Statism",
+        "slightlyHigh": "Slightly High Statism",
+        "neutral": "Centrist on Statism",
+        "slightlyLow": "Slightly Low Statism",
+        "moderatelyLow": "Moderately Low Statism",
+        "veryLow": "Very Low Statism"
+      },
+      "descriptions": {
+        "high": "You believe the state should play a strong role in both economic management and social transformation. You support government control of key industries, extensive welfare programs, and state intervention to reform traditional social practices.",
+        "neutral": "You hold balanced views on state intervention, supporting it in some areas while preferring limited government in others.",
+        "low": "You prefer minimal state intervention in both economy and society. You support market-based solutions, private enterprise, and preserving traditional autonomy in social and cultural matters."
+      }
+    },
+    "recognition": {
+      "name": "Recognition",
+      "labels": {
+        "veryHigh": "Very Pro-Recognition",
+        "moderatelyHigh": "Moderately Pro-Recognition",
+        "slightlyHigh": "Slightly Pro-Recognition",
+        "neutral": "Centrist on Recognition",
+        "slightlyLow": "Slightly Anti-Recognition",
+        "moderatelyLow": "Moderately Anti-Recognition",
+        "veryLow": "Very Anti-Recognition"
+      },
+      "descriptions": {
+        "high": "You strongly support group-based rights and protections. You favor affirmative action policies like reservations, minority rights, and state accommodation of diverse identities and communities.",
+        "neutral": "You hold moderate views on group recognition, balancing individual merit with some targeted support for disadvantaged communities.",
+        "low": "You lean toward majoritarian or individual merit-based approaches. You prefer uniform national identity over group-specific accommodations and may oppose special provisions for minorities."
+      }
+    },
+    "sid": {
+      "name": "SID",
+      "fullName": "Structural Incentive Distribution",
+      "labels": {
+        "veryHigh": "Very Universalist",
+        "moderatelyHigh": "Moderately Universalist",
+        "slightlyHigh": "Slightly Universalist",
+        "neutral": "Centrist on SID",
+        "slightlyLow": "Slightly Particularist",
+        "moderatelyLow": "Moderately Particularist",
+        "veryLow": "Very Particularist"
+      },
+      "descriptions": {
+        "high": "You favor universalist, rule-based distribution of resources. You believe government benefits should be allocated through objective criteria and transparent processes, without regard to identity or connections.",
+        "neutral": "You hold mixed views on distribution mechanisms, seeing value in both rule-based systems and community-based approaches.",
+        "low": "You accept or prefer particularist distribution based on identity networks and personal relationships. You believe politicians should prioritize their own communities and that personal connections are natural in governance."
+      }
+    }
+  }
+}

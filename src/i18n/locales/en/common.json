@@ -1,0 +1,128 @@
+{
+  "site": {
+    "name": "Political Nakshatra",
+    "tagline": "Understanding Indian Politics in 3D"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "quiz": "Take Quiz",
+    "results": "Results"
+  },
+  "buttons": {
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "restart": "Restart Quiz",
+    "share": "Share Results",
+    "learnMore": "Learn More",
+    "takeQuiz": "Take the Quiz",
+    "showParties": "Show Parties",
+    "hideParties": "Hide Parties",
+    "showLeaders": "Show Leaders",
+    "hideLeaders": "Hide Leaders"
+  },
+  "quiz": {
+    "progress": "Question {{current}} of {{total}}",
+    "progressPercentage": "{{percentage}}% Complete",
+    "answeredCount": "{{answered}} of {{total}} answered",
+    "title": "Political Position Quiz",
+    "instructions": "Answer all questions on a scale from Strongly Disagree to Strongly Agree",
+    "likertScale": {
+      "stronglyDisagree": "Strongly Disagree",
+      "disagree": "Disagree",
+      "neutral": "Neutral",
+      "agree": "Agree",
+      "stronglyAgree": "Strongly Agree"
+    },
+    "category": {
+      "statism": "Statism",
+      "recognition": "Recognition",
+      "sid": "SID"
+    },
+    "pleaseAnswer": "Please select an answer to continue",
+    "lastQuestion": "This is the last question"
+  },
+  "results": {
+    "title": "Your Political Position",
+    "subtitle": "Explore your location in India's political constellation",
+    "viewInstructions": "Click and drag to rotate • Scroll to zoom • Your position is the glowing gold star",
+    "axisBreakdown": "Axis Breakdown",
+    "closestParties": "Closest Political Parties",
+    "closestLeaders": "Closest Political Leaders",
+    "yourScore": "Your Score",
+    "distance": "Distance",
+    "region": "Region",
+    "note": "Note: Leader positions are estimates based on their policy records, public statements, and governance actions.",
+    "partyNote": "Note: Party positions are estimates based on policy analysis, electoral strategies, and governance records.",
+    "confirmRestart": "Are you sure you want to restart the quiz? Your current results will be lost.",
+    "resultsCopied": "Results copied to clipboard!",
+    "shareTitle": "My Political Nakshatra Results",
+    "shareText": "My Political Nakshatra position:\n\nStatism: {{statism}}\nRecognition: {{recognition}}\nSID: {{sid}}\n\nTake the quiz: {{url}}"
+  },
+  "home": {
+    "hero": {
+      "title": "Find Your Position in India's Political Constellation",
+      "subtitle": "A 3D political compass specifically designed for Indian politics",
+      "description": "Move beyond the traditional left-right spectrum. Discover where you stand on Statism, Recognition, and Structural Incentive Distribution—the three dimensions that truly define Indian political discourse."
+    },
+    "cta": {
+      "primary": "Start the Quiz",
+      "secondary": "Learn About the Methodology"
+    },
+    "features": {
+      "title": "Why This Is Different",
+      "items": [
+        {
+          "title": "India-Specific Framework",
+          "description": "Built on academic research analyzing Indian party systems, not adapted from Western models"
+        },
+        {
+          "title": "Three Dimensions",
+          "description": "Statism (state intervention), Recognition (group-based rights), and SID (patronage vs universal rules)"
+        },
+        {
+          "title": "Interactive 3D Visualization",
+          "description": "See your position plotted as a star in 3D space alongside major parties and leaders"
+        },
+        {
+          "title": "Privacy-Focused",
+          "description": "All data stays in your browser. No tracking, no accounts, no servers"
+        }
+      ]
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "steps": [
+        {
+          "number": "1",
+          "title": "Answer 36 Questions",
+          "description": "Respond to statements about politics, policy, and governance"
+        },
+        {
+          "number": "2",
+          "title": "Get Your Coordinates",
+          "description": "Receive your position on all three axes of Indian politics"
+        },
+        {
+          "number": "3",
+          "title": "Explore the Constellation",
+          "description": "See where you stand relative to major parties and political leaders"
+        }
+      ]
+    }
+  },
+  "footer": {
+    "tagline": "Understanding Indian Politics in 3D",
+    "copyright": "© 2024 Political Nakshatra. All rights reserved.",
+    "madeWith": "Made with",
+    "privacy": "Your data never leaves your device"
+  },
+  "language": {
+    "switchTo": "Switch to {{language}}",
+    "english": "English",
+    "marathi": "मराठी"
+  },
+  "loading": "Loading...",
+  "error": "An error occurred. Please try again."
+}

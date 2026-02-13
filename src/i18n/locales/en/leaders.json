@@ -1,0 +1,33 @@
+{
+  "leaders": {
+    "note": "Leader positions are estimates based on their policy records, public statements, and governance actions."
+  },
+  "roles": {
+    "primeMinister": "Prime Minister of India",
+    "leaderOfOpposition": "Leader of Opposition (Lok Sabha)",
+    "aapConvener": "AAP Convener",
+    "westBengalCM": "Chief Minister of West Bengal",
+    "tamilNaduCM": "Chief Minister of Tamil Nadu",
+    "formerDelhiCM": "Former Chief Minister of Delhi",
+    "homeMinister": "Home Minister",
+    "defenceMinister": "Defence Minister",
+    "financeMinister": "Finance Minister",
+    "upCM": "Chief Minister of Uttar Pradesh",
+    "bspSupremo": "BSP Supremo",
+    "spPresident": "SP President",
+    "biharCM": "Chief Minister of Bihar",
+    "apCM": "Chief Minister of Andhra Pradesh",
+    "ncpChief": "NCP Chief",
+    "spFounder": "SP Founder (Historical)",
+    "dmkLeader": "DMK Leader (Historical)"
+  },
+  "regions": {
+    "national": "National",
+    "westBengal": "West Bengal",
+    "tamilNadu": "Tamil Nadu",
+    "uttarPradesh": "Uttar Pradesh",
+    "bihar": "Bihar",
+    "andhraPradesh": "Andhra Pradesh",
+    "maharashtra": "Maharashtra"
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "page": {
+    "title": "About Political Nakshatra",
+    "subtitle": "Understanding Indian Politics in 3D"
+  },
+  "methodology": {
+    "title": "Methodology",
+    "intro": "Political Nakshatra is based on academic research showing that the traditional Western political compass (Left-Right economic, Authoritarian-Libertarian social) fails to accurately describe Indian political realities.",
+    "framework": "Instead, we use a three-dimensional framework specifically designed for multi-ethnic, post-colonial democracies like India:"
+  },
+  "comparison": {
+    "title": "Comparison with Western Political Models",
+    "intro": "Political Nakshatra is designed specifically for Indian political realities, while the Political Compass and similar Western models were developed for liberal democracies in Europe and North America. While there is some conceptual overlap, direct mapping between the frameworks is not possible.",
+    "context": "Understanding how this model differs from familiar Western frameworks helps contextualize where you stand in the Indian political constellation."
+  },
+  "axes": {
+    "statism": {
+      "title": "Statism Axis",
+      "description": "Measures the extent to which the state should dominate and regulate society and economy.",
+      "high": {
+        "title": "High Statism",
+        "features": [
+          "Government control of key industries",
+          "Extensive welfare programs",
+          "State-led social transformation",
+          "Economic redistribution"
+        ]
+      },
+      "low": {
+        "title": "Low Statism",
+        "features": [
+          "Market-based solutions",
+          "Minimal government intervention",
+          "Traditional social autonomy",
+          "Private enterprise focus"
+        ]
+      }
+    },
+    "recognition": {
+      "title": "Recognition Axis",
+      "description": "Measures support for group-based rights and state accommodation of diverse identities.",
+      "high": {
+        "title": "High Recognition",
+        "features": [
+          "SC/ST/OBC reservations",
+          "Minority rights protection",
+          "Pluralism and diversity",
+          "Affirmative action"
+        ]
+      },
+      "low": {
+        "title": "Low Recognition",
+        "features": [
+          "Uniform national identity",
+          "Merit-based systems",
+          "Uniform Civil Code advocacy",
+          "Anti-reservation stance"
+        ]
+      }
+    },
+    "sid": {
+      "title": "SID Axis (Structural Incentive Distribution)",
+      "description": "Measures whether resources should be distributed through universal rules or particularist networks.",
+      "high": {
+        "title": "Universalist",
+        "features": [
+          "Rule-based distribution",
+          "Objective criteria",
+          "Transparent processes",
+          "Merit and need-based"
+        ]
+      },
+      "low": {
+        "title": "Particularist",
+        "features": [
+          "Identity network-based",
+          "Patronage systems",
+          "Community prioritization",
+          "Personal connections"
+        ]
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "steps": [
+      {
+        "title": "Answer 36 questions",
+        "description": "covering all three axes using a 5-point Likert scale (Strongly Disagree to Strongly Agree)"
+      },
+      {
+        "title": "Your responses are scored",
+        "description": "to calculate your position on each axis, with results normalized to a scale from -1 to +1"
+      },
+      {
+        "title": "See your position",
+        "description": "plotted as a star in 3D space, representing your unique political stance"
+      },
+      {
+        "title": "Compare with parties and leaders",
+        "description": "(optional) to see which major Indian political parties and individual leaders are closest to your position"
+      }
+    ]
+  },
+  "partyPositions": {
+    "title": "Party Positions",
+    "description": "Political party positions are estimates based on policy analysis, electoral strategies, and governance records. These are not official party positions but academic assessments of where parties fall on the three axes.",
+    "partiesIncluded": "Parties included: BJP, Congress, AAP, BSP, TMC, CPI(M), SP, and DMK."
+  },
+  "leaderPositions": {
+    "title": "Leader Positions",
+    "description": "In addition to political parties, you can compare your position with individual political leaders. Leader positions are estimated based on their personal policy record, public statements, and governance actions during their tenure.",
+    "whyDifferent": "Why leaders differ from their parties:",
+    "whyDifferentText": "A leader's position may differ from their party's average position based on their individual emphasis, governance style, and policy priorities. For example, a leader might be more statist or less particularist than their party's overall stance.",
+    "includedLeaders": "Included Leaders:",
+    "nationalLeaders": "National Leaders",
+    "regionalLeaders": "Regional Leaders",
+    "cabinetMinisters": "Cabinet Ministers",
+    "historicalFigures": "Historical Figures",
+    "visualNote": "Leaders are represented as diamond-shaped (octahedron) markers in the 3D visualization, distinct from the spherical party markers. Toggle the \"Show Leaders\" button on the results page to see them.",
+    "disclaimer": "Note: Leader positions are approximations based on publicly available information and policy analysis. They are meant to provide context and comparison, not definitive political categorizations."
+  },
+  "privacy": {
+    "title": "Privacy & Data",
+    "mainPoint": "Your data never leaves your device.",
+    "description": "Political Nakshatra runs entirely in your browser. Your quiz responses are stored in your browser's local storage and are never sent to any server.",
+    "features": [
+      "No account creation required",
+      "No data collection or tracking",
+      "No cookies or analytics",
+      "Responses stored locally only",
+      "You can clear your data anytime by resetting the quiz"
+    ]
+  },
+  "credits": {
+    "title": "Credits & Sources",
+    "intro": "This framework is based on academic research including:",
+    "sources": [
+      "Chhibber & Verma (2018): <em>Ideology and Identity: The Changing Party Systems of India</em>",
+      "Kanchan Chandra: <em>Why Ethnic Parties Succeed: Patronage and Ethnic Headcounts in India</em>",
+      "Research on caste networks, reservations, and patronage democracy in India"
+    ]
+  },
+  "cta": {
+    "takeQuiz": "Take the Quiz"
+  }
+}
