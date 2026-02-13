@@ -3,7 +3,9 @@
 import { QuickSummary } from './QuickSummary';
 import { ClosestLeaderPerAxis } from './ClosestLeaderPerAxis';
 import { PartiesComparisonTable } from './PartiesComparisonTable';
+import { LeadersComparisonTable } from './LeadersComparisonTable';
 import { DistanceChart } from './DistanceChart';
+import { LeadersDistanceChart } from './LeadersDistanceChart';
 import { AspectBreakdown } from './AspectBreakdown';
 import { getPartiesByDistance } from '../../data/parties';
 import { getLeadersByDistance } from '../../data/leaders';
@@ -31,6 +33,14 @@ export function DetailedComparison({ userPosition, showLeaders = false }) {
 
       {/* Parties Comparison Table */}
       <PartiesComparisonTable userPosition={userPosition} />
+
+      {/* Leader Comparisons */}
+      {showLeaders && (
+        <>
+          <LeadersDistanceChart userPosition={userPosition} />
+          <LeadersComparisonTable userPosition={userPosition} />
+        </>
+      )}
 
       {/* Aspect Breakdown for Closest Match */}
       {closestParty && (

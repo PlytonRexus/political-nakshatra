@@ -3,7 +3,7 @@
 import { Target } from 'lucide-react';
 import { getPartiesByDistance } from '../../data/parties';
 import { getLeadersByDistance } from '../../data/leaders';
-import { calculateDistance, calculateMatchScore, getPoliticalLean } from '../../utils/scoring';
+import { calculateDistance, calculateMatchScore, getPoliticalLean, interpretMatchPercentage, interpretDistance } from '../../utils/scoring';
 
 export function QuickSummary({ userPosition }) {
   // Get closest party and leader
@@ -38,7 +38,9 @@ export function QuickSummary({ userPosition }) {
         <div className="bg-black/30 rounded-lg p-4">
           <div className="text-sm text-gray-400 mb-1">Match Score</div>
           <div className="text-lg font-bold text-green-400">{partyMatchScore}%</div>
-          <div className="text-xs text-gray-500 mt-1">with {closestParty.abbreviation}</div>
+          <div className="text-xs text-gray-500 mt-1">
+            {interpretMatchPercentage(partyMatchScore)} with {closestParty.abbreviation}
+          </div>
         </div>
       </div>
 
@@ -54,7 +56,9 @@ export function QuickSummary({ userPosition }) {
               <div className="text-sm font-semibold text-green-400">
                 {calculateMatchScore(userPosition, closestLeader.position)}% match
               </div>
-              <div className="text-xs text-gray-500">Distance: {closestLeader.distance.toFixed(3)}</div>
+              <div className="text-xs text-gray-500">
+                {interpretDistance(closestLeader.distance, 'leader')}
+              </div>
             </div>
           </div>
         </div>

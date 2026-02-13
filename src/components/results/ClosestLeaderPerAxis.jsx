@@ -3,7 +3,7 @@
 import { BarChart3, User, Scale } from 'lucide-react';
 import { leaders } from '../../data/leaders';
 import { parties } from '../../data/parties';
-import { getClosestPerAxis } from '../../utils/scoring';
+import { getClosestPerAxis, getComparativeDescription } from '../../utils/scoring';
 
 const axisIcons = {
   statism: <BarChart3 size={20} />,
@@ -99,6 +99,10 @@ export function ClosestLeaderPerAxis({ userPosition }) {
                       {difference.toFixed(3)} ({getDifferenceLabel(difference)})
                     </span>
                   </div>
+
+                  <p className="text-xs text-gray-400 mt-2 italic">
+                    {getComparativeDescription(userValue, value, axis)}
+                  </p>
                 </div>
               </div>
             </div>

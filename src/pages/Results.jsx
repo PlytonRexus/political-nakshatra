@@ -3,11 +3,12 @@
 import { useEffect, Suspense, lazy, useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useQuiz } from '../contexts/QuizContext';
-import { getAxisLabel, getAxisDescription, calculateDistance } from '../utils/scoring';
+import { getAxisLabel, getAxisDescription, calculateDistance, getAxisExamples } from '../utils/scoring';
 import { getLeadersByDistance } from '../data/leaders';
 import { parties } from '../data/parties';
 import { Share2, RefreshCw, Eye, EyeOff, User, AlertCircle } from 'lucide-react';
 import { DetailedComparison } from '../components/results/DetailedComparison';
+import { PositionInterpretation } from '../components/results/PositionInterpretation';
 import { ShareModal } from '../components/results/ShareModal';
 import { decodeResults } from '../utils/urlSharing';
 
@@ -194,6 +195,17 @@ export function Results() {
               <p className="text-sm text-gray-300 mt-4">
                 {getAxisDescription(displayResults.statism, 'statism')}
               </p>
+              <div className="mt-3 p-3 bg-blue-900/20 rounded border border-blue-500/30">
+                <p className="text-xs font-semibold text-gray-400 mb-2">For example, you likely support:</p>
+                <ul className="text-xs text-gray-300 space-y-1">
+                  {getAxisExamples(displayResults.statism, 'statism').map((example, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-blue-400 mt-0.5">•</span>
+                      <span>{example}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             <div className="card border-l-4 border-green-400">
@@ -207,6 +219,17 @@ export function Results() {
               <p className="text-sm text-gray-300 mt-4">
                 {getAxisDescription(displayResults.recognition, 'recognition')}
               </p>
+              <div className="mt-3 p-3 bg-green-900/20 rounded border border-green-500/30">
+                <p className="text-xs font-semibold text-gray-400 mb-2">For example, you likely support:</p>
+                <ul className="text-xs text-gray-300 space-y-1">
+                  {getAxisExamples(displayResults.recognition, 'recognition').map((example, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-green-400 mt-0.5">•</span>
+                      <span>{example}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             <div className="card border-l-4 border-purple-400">
@@ -220,8 +243,24 @@ export function Results() {
               <p className="text-sm text-gray-300 mt-4">
                 {getAxisDescription(displayResults.sid, 'sid')}
               </p>
+              <div className="mt-3 p-3 bg-purple-900/20 rounded border border-purple-500/30">
+                <p className="text-xs font-semibold text-gray-400 mb-2">For example, you likely support:</p>
+                <ul className="text-xs text-gray-300 space-y-1">
+                  {getAxisExamples(displayResults.sid, 'sid').map((example, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-0.5">•</span>
+                      <span>{example}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
+        </section>
+
+        {/* Position Interpretation */}
+        <section className="mb-8">
+          <PositionInterpretation userPosition={displayResults} />
         </section>
 
         {/* 3D Visualization */}

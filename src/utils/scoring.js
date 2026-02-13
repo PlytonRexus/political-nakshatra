@@ -252,3 +252,184 @@ export function getPoliticalLean(position) {
     return 'Centrist Moderate';
   }
 }
+
+/**
+ * Interpret distance value with plain language
+ * @param {number} distance - Distance between positions
+ * @param {string} entityType - 'party' or 'leader'
+ * @returns {string} Human-readable interpretation
+ */
+export function interpretDistance(distance, entityType = 'party') {
+  if (distance < 0.3) return 'Very similar - you align closely on most issues';
+  if (distance < 0.6) return 'Moderate alignment - you share some major positions';
+  if (distance < 1.0) return 'Significant differences - you differ on several key issues';
+  return 'Very different - you have contrasting positions on most issues';
+}
+
+/**
+ * Interpret match percentage with context
+ * @param {number} matchPercent - Match percentage (0-100)
+ * @returns {string} Human-readable interpretation
+ */
+export function interpretMatchPercentage(matchPercent) {
+  if (matchPercent >= 80) return 'Strong alignment';
+  if (matchPercent >= 60) return 'Moderate alignment';
+  if (matchPercent >= 40) return 'Some alignment';
+  return 'Low alignment';
+}
+
+/**
+ * Get concrete policy examples based on axis position
+ * @param {number} coordinate - Position between -1 and +1
+ * @param {string} axis - Axis name ('statism', 'recognition', or 'sid')
+ * @returns {Array<string>} Array of policy examples
+ */
+export function getAxisExamples(coordinate, axis) {
+  const absValue = Math.abs(coordinate);
+
+  const examples = {
+    statism: {
+      veryHigh: [
+        'Government healthcare expansion and universal coverage',
+        'Public sector growth in key industries',
+        'State control of natural resources and utilities',
+        'Extensive welfare programs and subsidies'
+      ],
+      high: [
+        'Mixed economy with strong state regulation',
+        'Government intervention in strategic sectors',
+        'Public education and infrastructure investment',
+        'Labor protection laws and minimum wage policies'
+      ],
+      neutral: [
+        'Balanced public-private partnerships',
+        'Selective government intervention when needed',
+        'Mix of market forces and regulation'
+      ],
+      low: [
+        'Market-based solutions for most sectors',
+        'Reduced government regulation in business',
+        'Privatization of non-strategic enterprises',
+        'Individual responsibility over state support'
+      ],
+      veryLow: [
+        'Minimal government intervention in economy',
+        'Free market policies across all sectors',
+        'Private enterprise as primary driver',
+        'Voluntary community support over state welfare'
+      ]
+    },
+    recognition: {
+      veryHigh: [
+        'Strong SC/ST/OBC reservation policies in education and jobs',
+        'Minority rights protections and special provisions',
+        'Pluralistic approach to cultural diversity',
+        'State recognition of multiple identity groups'
+      ],
+      high: [
+        'Affirmative action for disadvantaged communities',
+        'Protection of linguistic and religious minorities',
+        'Group-specific welfare schemes',
+        'Accommodation of diverse cultural practices'
+      ],
+      neutral: [
+        'Balanced individual merit with targeted support',
+        'Case-by-case approach to group rights',
+        'Some reservations with economic criteria'
+      ],
+      low: [
+        'Merit-based selection emphasis',
+        'Uniform civil code support',
+        'Individual-focused policies over group benefits',
+        'National unity over identity politics'
+      ],
+      veryLow: [
+        'Strong opposition to caste/religion-based reservations',
+        'Assimilation into dominant culture',
+        'Majoritarian policies and uniform national identity',
+        'No special provisions for minority groups'
+      ]
+    },
+    sid: {
+      veryHigh: [
+        'Rule-based transparent allocation of government benefits',
+        'Objective criteria for welfare schemes (income, need)',
+        'Universal schemes like Aadhaar-linked transfers',
+        'Merit-based recruitment without patronage'
+      ],
+      high: [
+        'Direct Benefit Transfer for subsidies',
+        'Transparent bidding for government contracts',
+        'Non-discriminatory access to public services',
+        'Rules-based governance over discretionary decisions'
+      ],
+      neutral: [
+        'Mix of universal schemes and targeted programs',
+        'Some flexibility in distribution alongside rules',
+        'Balance between merit and community needs'
+      ],
+      low: [
+        'Community-based distribution of resources',
+        'Political leaders prioritizing their constituencies',
+        'Identity-linked benefits and schemes',
+        'Personal connections as part of governance'
+      ],
+      veryLow: [
+        'Patronage networks for resource access',
+        'Caste/religious community priority in benefits',
+        'Leader discretion over rule-based allocation',
+        'Traditional identity-based distribution systems'
+      ]
+    }
+  };
+
+  // Determine which range the coordinate falls into
+  if (coordinate > 0.6) return examples[axis].veryHigh.slice(0, 3);
+  if (coordinate > 0.3) return examples[axis].high.slice(0, 3);
+  if (Math.abs(coordinate) <= 0.3) return examples[axis].neutral;
+  if (coordinate < -0.6) return examples[axis].veryLow.slice(0, 3);
+  return examples[axis].low.slice(0, 3);
+}
+
+/**
+ * Get comparative description between user and target positions
+ * @param {number} userValue - User's value on axis (-1 to +1)
+ * @param {number} targetValue - Target's value on axis (-1 to +1)
+ * @param {string} axis - Axis name ('statism', 'recognition', or 'sid')
+ * @returns {string} Comparative description
+ */
+export function getComparativeDescription(userValue, targetValue, axis) {
+  const userLabel = getAxisLabel(userValue, axis);
+  const targetLabel = getAxisLabel(targetValue, axis);
+
+  const descriptions = {
+    statism: {
+      more: 'more state intervention',
+      less: 'less state intervention',
+      similar: 'similar views on the role of the state'
+    },
+    recognition: {
+      more: 'more support for group-based rights and protections',
+      less: 'more emphasis on individual merit and uniform policies',
+      similar: 'similar views on group recognition'
+    },
+    sid: {
+      more: 'more universalist, rule-based distribution',
+      less: 'more particularist, community-based distribution',
+      similar: 'similar views on resource distribution'
+    }
+  };
+
+  const diff = userValue - targetValue;
+  const absvalue = Math.abs(diff);
+
+  if (absvalue < 0.15) {
+    return `You both have ${descriptions[axis].similar}.`;
+  }
+
+  if (diff > 0) {
+    return `You favor ${descriptions[axis].more}, while they lean toward ${descriptions[axis].less}.`;
+  } else {
+    return `You favor ${descriptions[axis].less}, while they lean toward ${descriptions[axis].more}.`;
+  }
+}
