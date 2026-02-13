@@ -7,6 +7,8 @@ import { useFrame } from '@react-three/fiber';
 import { DoubleSide } from 'three';
 import { parties } from '../../data/parties';
 import { leaders } from '../../data/leaders';
+import { interpretDistance } from '../../utils/scoring';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 // User Star Component - Glowing gold star
 function UserStar({ position }) {
@@ -92,6 +94,7 @@ function PartyStar({ party, userPosition }) {
             <div className="font-bold">{party.abbreviation}</div>
             <div className="text-gray-400 text-xs">{party.name}</div>
             <div className="text-gray-500 text-xs mt-1">Distance: {distance.toFixed(3)}</div>
+            <div className="text-gray-400 text-xs italic">{interpretDistance(distance, 'party')}</div>
           </div>
         </Html>
       )}
@@ -152,6 +155,7 @@ function LeaderStar({ leader, userPosition }) {
             <div className="text-gray-500 text-xs mt-1">
               {parties.find(p => p.id === leader.partyId)?.abbreviation || leader.partyId.toUpperCase()} • Distance: {distance.toFixed(3)}
             </div>
+            <div className="text-gray-400 text-xs italic">{interpretDistance(distance, 'leader')}</div>
           </div>
         </Html>
       )}
@@ -258,6 +262,25 @@ function ReferencePlane({ position, color, opacity = 0.03, rotation = [Math.PI /
   );
 }
 
+// Axis Direction Label Component - Shows direction meaning at axis endpoints
+function AxisDirectionLabel({ position, text, color, bg }) {
+  return (
+    <Html position={position} distanceFactor={5}>
+      <div
+        className="px-2 py-1 rounded text-xs font-semibold whitespace-nowrap pointer-events-none border"
+        style={{
+          backgroundColor: bg,
+          color: 'white',
+          borderColor: color,
+          opacity: 0.85
+        }}
+      >
+        {text}
+      </div>
+    </Html>
+  );
+}
+
 // Axis Line Component
 function Axis({ start, end, color, label, labelPosition }) {
   const points = [start, end];
@@ -323,10 +346,73 @@ function GridPlane() {
   );
 }
 
+// Orientation Guide Component - Collapsible overlay explaining axes
+function OrientationGuide({ isOpen, toggle }) {
+  return (
+    <div className="absolute top-6 left-6 z-10">
+      <div className="bg-gray-900/95 border border-gray-700 rounded-lg shadow-xl overflow-hidden">
+        {/* Header */}
+        <button
+          onClick={toggle}
+          className="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-800/50 transition-colors"
+        >
+          <span className="text-sm font-semibold text-white">Understanding the 3D Space</span>
+          {isOpen ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+        </button>
+
+        {/* Content */}
+        {isOpen && (
+          <div className="px-4 py-3 space-y-2 text-xs text-gray-300 border-t border-gray-700">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-3 h-3 rounded-full bg-blue-400"></div>
+                <span className="font-semibold text-blue-400">Statism (X-axis)</span>
+              </div>
+              <div className="ml-5 text-gray-400">
+                <span className="text-blue-300">Right (+):</span> More state control<br/>
+                <span className="text-blue-300">Left (−):</span> Less state control
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                <span className="font-semibold text-green-400">Recognition (Y-axis)</span>
+              </div>
+              <div className="ml-5 text-gray-400">
+                <span className="text-green-300">Up (+):</span> More group rights<br/>
+                <span className="text-green-300">Down (−):</span> Less group rights
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-3 h-3 rounded-full bg-purple-400"></div>
+                <span className="font-semibold text-purple-400">SID (Z-axis)</span>
+              </div>
+              <div className="ml-5 text-gray-400">
+                <span className="text-purple-300">Forward (+):</span> Universalist<br/>
+                <span className="text-purple-300">Back (−):</span> Particularist
+              </div>
+            </div>
+
+            <div className="pt-2 mt-2 border-t border-gray-700">
+              <div className="text-yellow-400 font-semibold mb-1">Your Position:</div>
+              <div className="text-gray-400">Gold star (glowing)</div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // Main Compass3D Component
 export default function Compass3D({ userPosition, showParties = false, showLeaders = false, showCompass = false }) {
+  const [guideOpen, setGuideOpen] = useState(false);
+
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full relative">
       <Canvas
         camera={{ position: [3.5, 3.5, 3.5], fov: 50 }}
         style={{ background: '#0a0a1a' }}
@@ -403,6 +489,16 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
           <LeaderStar key={leader.id} leader={leader} userPosition={userPosition} />
         ))}
 
+        {/* Axis Direction Labels */}
+        <AxisDirectionLabel position={[1.5, 0, 0]} text="More State Control" color="#4FC3F7" bg="rgba(79, 195, 247, 0.2)" />
+        <AxisDirectionLabel position={[-1.5, 0, 0]} text="Less State Control" color="#4FC3F7" bg="rgba(79, 195, 247, 0.2)" />
+
+        <AxisDirectionLabel position={[0, 1.5, 0]} text="More Group Rights" color="#81C784" bg="rgba(129, 199, 132, 0.2)" />
+        <AxisDirectionLabel position={[0, -1.5, 0]} text="Less Group Rights" color="#81C784" bg="rgba(129, 199, 132, 0.2)" />
+
+        <AxisDirectionLabel position={[0, 0, 1.5]} text="Universalist" color="#BA68C8" bg="rgba(186, 104, 200, 0.2)" />
+        <AxisDirectionLabel position={[0, 0, -1.5]} text="Particularist" color="#BA68C8" bg="rgba(186, 104, 200, 0.2)" />
+
         {/* Controls */}
         <OrbitControls
           enableDamping
@@ -415,6 +511,9 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
           autoRotateSpeed={0.5}
         />
       </Canvas>
+
+      {/* Orientation Guide Overlay */}
+      <OrientationGuide isOpen={guideOpen} toggle={() => setGuideOpen(!guideOpen)} />
     </div>
   );
 }
