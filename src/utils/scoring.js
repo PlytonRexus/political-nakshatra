@@ -179,3 +179,76 @@ export function findClosestParty(userPosition, parties) {
 
   return { party: closestParty, distance: minDistance };
 }
+
+/**
+ * Calculate match score percentage between two positions
+ * @param {Object} userPosition - User's coordinates
+ * @param {Object} targetPosition - Target coordinates
+ * @returns {number} Match score (0-100%)
+ */
+export function calculateMatchScore(userPosition, targetPosition) {
+  const maxDistance = Math.sqrt(3 * (2**2)); // max possible distance in [-1,+1]³ space
+  const distance = calculateDistance(userPosition, targetPosition);
+  return Math.round((1 - distance / maxDistance) * 100);
+}
+
+/**
+ * Get axis alignment description and match percentage
+ * @param {number} userVal - User's value on axis
+ * @param {number} targetVal - Target's value on axis
+ * @returns {Object} Alignment label and match percentage
+ */
+export function getAxisAlignment(userVal, targetVal) {
+  const diff = Math.abs(userVal - targetVal);
+  const matchPercent = Math.round((1 - diff / 2) * 100);
+
+  if (diff < 0.1) return { label: 'Very similar', match: matchPercent, symbol: '✓' };
+  if (diff < 0.3) return { label: 'Similar', match: matchPercent, symbol: '✓' };
+  if (diff < 0.5) return { label: 'Somewhat different', match: matchPercent, symbol: '~' };
+  return { label: 'Different', match: matchPercent, symbol: '✗' };
+}
+
+/**
+ * Find closest leader/party on each axis
+ * @param {Object} userPosition - User's coordinates
+ * @param {Array} entities - Array of leaders or parties
+ * @returns {Array} Closest entity per axis
+ */
+export function getClosestPerAxis(userPosition, entities) {
+  const axes = ['statism', 'recognition', 'sid'];
+  return axes.map(axis => {
+    const sorted = entities
+      .map(entity => ({
+        entity,
+        difference: Math.abs(userPosition[axis] - entity.position[axis]),
+        value: entity.position[axis]
+      }))
+      .sort((a, b) => a.difference - b.difference);
+    return { axis, ...sorted[0] };
+  });
+}
+
+/**
+ * Get political lean description based on position
+ * @param {Object} position - User's coordinates
+ * @returns {string} Political lean description
+ */
+export function getPoliticalLean(position) {
+  const { statism, recognition, sid } = position;
+
+  // Determine primary characteristics
+  const statismLabel = statism > 0.3 ? 'Statist' : statism < -0.3 ? 'Market-oriented' : 'Centrist';
+  const recognitionLabel = recognition > 0.3 ? 'Pluralist' : recognition < -0.3 ? 'Majoritarian' : 'Moderate';
+  const sidLabel = sid > 0.3 ? 'Universalist' : sid < -0.3 ? 'Particularist' : 'Balanced';
+
+  // Combine for overall lean
+  if (Math.abs(statism) > 0.3 && Math.abs(recognition) > 0.3) {
+    return `${statismLabel} ${recognitionLabel}`;
+  } else if (Math.abs(statism) > 0.3) {
+    return statismLabel;
+  } else if (Math.abs(recognition) > 0.3) {
+    return recognitionLabel;
+  } else {
+    return 'Centrist Moderate';
+  }
+}

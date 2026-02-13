@@ -1,19 +1,23 @@
 // Results Page - Shows 3D compass and analysis
 
-import { useEffect, Suspense, lazy } from 'react';
+import { useEffect, Suspense, lazy, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuiz } from '../contexts/QuizContext';
 import { getAxisLabel, getAxisDescription, calculateDistance } from '../utils/scoring';
 import { getLeadersByDistance } from '../data/leaders';
 import { parties } from '../data/parties';
 import { Share2, RefreshCw, Eye, EyeOff, User } from 'lucide-react';
+import { DetailedComparison } from '../components/results/DetailedComparison';
+import { ShareModal } from '../components/results/ShareModal';
 
 // Lazy load the 3D compass for better performance
 const Compass3D = lazy(() => import('../components/visualization/Compass3D'));
 
 export function Results() {
   const navigate = useNavigate();
-  const { results, isComplete, resetQuiz, showParties, toggleParties, showLeaders, toggleLeaders } = useQuiz();
+  const { results, isComplete, resetQuiz, showParties, toggleParties, showLeaders, toggleLeaders, showCompass, toggleCompass } = useQuiz();
+  const [activeSection, setActiveSection] = useState('overview');
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   useEffect(() => {
     // Redirect to quiz if not complete
@@ -36,23 +40,20 @@ export function Results() {
     }
   };
 
-  const handleShare = async () => {
-    const shareText = `My Political Nakshatra position:\n\nStatism: ${getAxisLabel(results.statism, 'statism')}\nRecognition: ${getAxisLabel(results.recognition, 'recognition')}\nSID: ${getAxisLabel(results.sid, 'sid')}\n\nTake the quiz: ${window.location.origin}`;
+  const handleShare = () => {
+    setIsShareModalOpen(true);
+  };
 
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'My Political Nakshatra Results',
-          text: shareText,
-        });
-      } catch (err) {
-        // User cancelled or share failed
-        console.log('Share failed:', err);
-      }
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(shareText);
-      alert('Results copied to clipboard!');
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 80; // Account for sticky header
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: elementPosition - offset,
+        behavior: 'smooth'
+      });
+      setActiveSection(sectionId);
     }
   };
 
@@ -64,15 +65,111 @@ export function Results() {
           <p className="text-gray-400">Explore your location in India's political constellation</p>
         </div>
 
+        {/* Sticky Navigation Tabs */}
+        <div className="sticky top-0 z-40 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700 mb-8 -mx-4 px-4">
+          <div className="flex gap-2 overflow-x-auto pb-2 pt-2">
+            <button
+              onClick={() => scrollToSection('overview')}
+              className={`px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-all ${
+                activeSection === 'overview'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => scrollToSection('3d-view')}
+              className={`px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-all ${
+                activeSection === '3d-view'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              3D View
+            </button>
+            <button
+              onClick={() => scrollToSection('comparisons')}
+              className={`px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-all ${
+                activeSection === 'comparisons'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              Comparisons
+            </button>
+            <button
+              onClick={() => scrollToSection('details')}
+              className={`px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-all ${
+                activeSection === 'details'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              Details
+            </button>
+            <button
+              onClick={handleShare}
+              className="px-4 py-2 rounded-lg font-semibold whitespace-nowrap bg-green-600 hover:bg-green-700 text-white transition-all ml-auto"
+            >
+              Share Results
+            </button>
+          </div>
+        </div>
+
+        {/* Overview Section - Axis Breakdown */}
+        <section id="overview" className="mb-8">
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="card border-l-4 border-blue-400">
+              <h3 className="text-lg font-bold text-blue-400 mb-2">Statism</h3>
+              <p className="text-2xl font-bold text-white mb-2">
+                {getAxisLabel(results.statism, 'statism')}
+              </p>
+              <p className="text-sm text-gray-400">
+                Score: {results.statism.toFixed(2)}
+              </p>
+              <p className="text-sm text-gray-300 mt-4">
+                {getAxisDescription(results.statism, 'statism')}
+              </p>
+            </div>
+
+            <div className="card border-l-4 border-green-400">
+              <h3 className="text-lg font-bold text-green-400 mb-2">Recognition</h3>
+              <p className="text-2xl font-bold text-white mb-2">
+                {getAxisLabel(results.recognition, 'recognition')}
+              </p>
+              <p className="text-sm text-gray-400">
+                Score: {results.recognition.toFixed(2)}
+              </p>
+              <p className="text-sm text-gray-300 mt-4">
+                {getAxisDescription(results.recognition, 'recognition')}
+              </p>
+            </div>
+
+            <div className="card border-l-4 border-purple-400">
+              <h3 className="text-lg font-bold text-purple-400 mb-2">SID</h3>
+              <p className="text-2xl font-bold text-white mb-2">
+                {getAxisLabel(results.sid, 'sid')}
+              </p>
+              <p className="text-sm text-gray-400">
+                Score: {results.sid.toFixed(2)}
+              </p>
+              <p className="text-sm text-gray-300 mt-4">
+                {getAxisDescription(results.sid, 'sid')}
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* 3D Visualization */}
-        <div className="mb-8">
+        <section id="3d-view" className="mb-8">
           <div className="card bg-black/50 p-4 h-[600px] relative">
             <Suspense fallback={
               <div className="flex items-center justify-center h-full">
                 <div className="text-gray-400">Loading 3D visualization...</div>
               </div>
             }>
-              <Compass3D userPosition={results} showParties={showParties} showLeaders={showLeaders} />
+              <Compass3D userPosition={results} showParties={showParties} showLeaders={showLeaders} showCompass={showCompass} />
             </Suspense>
 
             {/* Toggle Buttons */}
@@ -91,59 +188,34 @@ export function Results() {
                 {showLeaders ? <EyeOff size={18} /> : <User size={18} />}
                 {showLeaders ? 'Hide' : 'Show'} Leaders
               </button>
+              <button
+                onClick={toggleCompass}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all backdrop-blur-sm ${
+                  showCompass
+                    ? 'bg-yellow-600/80 hover:bg-yellow-500/80 text-white'
+                    : 'bg-gray-800/80 hover:bg-gray-700/80 text-white'
+                }`}
+              >
+                {showCompass ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showCompass ? 'Hide' : 'Show'} 2D Compass
+              </button>
             </div>
           </div>
 
           <p className="text-sm text-gray-500 text-center mt-2">
             Click and drag to rotate • Scroll to zoom • Your position is the glowing gold star
           </p>
-        </div>
+        </section>
 
-        {/* Axis Breakdown */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="card border-l-4 border-blue-400">
-            <h3 className="text-lg font-bold text-blue-400 mb-2">Statism</h3>
-            <p className="text-2xl font-bold text-white mb-2">
-              {getAxisLabel(results.statism, 'statism')}
-            </p>
-            <p className="text-sm text-gray-400">
-              Score: {results.statism.toFixed(2)}
-            </p>
-            <p className="text-sm text-gray-300 mt-4">
-              {getAxisDescription(results.statism, 'statism')}
-            </p>
-          </div>
+        {/* Comparisons Section */}
+        <section id="comparisons" className="mb-8">
+          <DetailedComparison userPosition={results} showLeaders={showLeaders} />
+        </section>
 
-          <div className="card border-l-4 border-green-400">
-            <h3 className="text-lg font-bold text-green-400 mb-2">Recognition</h3>
-            <p className="text-2xl font-bold text-white mb-2">
-              {getAxisLabel(results.recognition, 'recognition')}
-            </p>
-            <p className="text-sm text-gray-400">
-              Score: {results.recognition.toFixed(2)}
-            </p>
-            <p className="text-sm text-gray-300 mt-4">
-              {getAxisDescription(results.recognition, 'recognition')}
-            </p>
-          </div>
-
-          <div className="card border-l-4 border-purple-400">
-            <h3 className="text-lg font-bold text-purple-400 mb-2">SID</h3>
-            <p className="text-2xl font-bold text-white mb-2">
-              {getAxisLabel(results.sid, 'sid')}
-            </p>
-            <p className="text-sm text-gray-400">
-              Score: {results.sid.toFixed(2)}
-            </p>
-            <p className="text-sm text-gray-300 mt-4">
-              {getAxisDescription(results.sid, 'sid')}
-            </p>
-          </div>
-        </div>
-
-        {/* Closest Leaders Section */}
-        {showLeaders && (
-          <div className="card mb-8">
+        {/* Details Section - Closest Leaders */}
+        <section id="details">
+          {showLeaders && (
+            <div className="card mb-8">
             <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
               <User size={24} />
               Closest Political Leaders
@@ -193,11 +265,12 @@ export function Results() {
             <p className="text-sm text-gray-500 mt-4 italic">
               Note: Leader positions are estimates based on their policy records, public statements, and governance actions.
             </p>
-          </div>
-        )}
+            </div>
+          )}
+        </section>
 
         {/* Actions */}
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-4 mt-8">
           <button
             onClick={handleShare}
             className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all"
@@ -222,6 +295,13 @@ export function Results() {
           </Link>
         </div>
       </div>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        userPosition={results}
+      />
     </div>
   );
 }

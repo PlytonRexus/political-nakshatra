@@ -1,9 +1,10 @@
 // 3D Compass Visualization with Constellation Theme
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Stars, Text, Html } from '@react-three/drei';
+import { OrbitControls, Stars, Text, Html, Line } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { DoubleSide } from 'three';
 import { parties } from '../../data/parties';
 import { leaders } from '../../data/leaders';
 
@@ -44,9 +45,15 @@ function UserStar({ position }) {
 }
 
 // Party Star Component - Smaller colored stars for parties
-function PartyStar({ party }) {
+function PartyStar({ party, userPosition }) {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
+
+  // Calculate distance to user
+  const dx = userPosition.statism - party.position.statism;
+  const dy = userPosition.recognition - party.position.recognition;
+  const dz = userPosition.sid - party.position.sid;
+  const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
   return (
     <group position={[party.position.statism, party.position.recognition, party.position.sid]}>
@@ -63,11 +70,28 @@ function PartyStar({ party }) {
         />
       </mesh>
 
+      {/* Distance line when hovered */}
+      {hovered && (
+        <Line
+          points={[
+            [party.position.statism, party.position.recognition, party.position.sid],
+            [userPosition.statism, userPosition.recognition, userPosition.sid]
+          ]}
+          color={distance < 0.5 ? '#00FF00' : distance < 1.0 ? '#FFFF00' : '#FF6600'}
+          lineWidth={2}
+          dashed
+          dashScale={20}
+          dashSize={0.05}
+          gapSize={0.05}
+        />
+      )}
+
       {hovered && (
         <Html distanceFactor={3}>
           <div className="bg-gray-900/95 px-3 py-2 rounded text-white text-xs font-semibold whitespace-nowrap pointer-events-none border border-gray-700">
             <div className="font-bold">{party.abbreviation}</div>
             <div className="text-gray-400 text-xs">{party.name}</div>
+            <div className="text-gray-500 text-xs mt-1">Distance: {distance.toFixed(3)}</div>
           </div>
         </Html>
       )}
@@ -76,9 +100,15 @@ function PartyStar({ party }) {
 }
 
 // Leader Star Component - Octahedron (diamond) shaped markers for individual leaders
-function LeaderStar({ leader }) {
+function LeaderStar({ leader, userPosition }) {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
+
+  // Calculate distance to user
+  const dx = userPosition.statism - leader.position.statism;
+  const dy = userPosition.recognition - leader.position.recognition;
+  const dz = userPosition.sid - leader.position.sid;
+  const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
   return (
     <group position={[leader.position.statism, leader.position.recognition, leader.position.sid]}>
@@ -98,18 +128,133 @@ function LeaderStar({ leader }) {
         />
       </mesh>
 
+      {/* Distance line when hovered */}
+      {hovered && (
+        <Line
+          points={[
+            [leader.position.statism, leader.position.recognition, leader.position.sid],
+            [userPosition.statism, userPosition.recognition, userPosition.sid]
+          ]}
+          color={distance < 0.5 ? '#00FF00' : distance < 1.0 ? '#FFFF00' : '#FF6600'}
+          lineWidth={2}
+          dashed
+          dashScale={20}
+          dashSize={0.05}
+          gapSize={0.05}
+        />
+      )}
+
       {hovered && (
         <Html distanceFactor={3}>
           <div className="bg-gray-900/95 px-3 py-2 rounded text-white text-xs font-semibold whitespace-nowrap pointer-events-none border border-gray-700">
             <div className="font-bold">{leader.name}</div>
             <div className="text-gray-400 text-xs">{leader.role}</div>
             <div className="text-gray-500 text-xs mt-1">
-              {parties.find(p => p.id === leader.partyId)?.abbreviation || leader.partyId.toUpperCase()}
+              {parties.find(p => p.id === leader.partyId)?.abbreviation || leader.partyId.toUpperCase()} • Distance: {distance.toFixed(3)}
             </div>
           </div>
         </Html>
       )}
     </group>
+  );
+}
+
+// Political Compass Plane Component - Shows traditional 2D political compass at z=0
+function PoliticalCompassPlane({ userPosition, visible }) {
+  if (!visible) return null;
+
+  return (
+    <group>
+      {/* Base plane with Political Compass grid */}
+      <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[3, 3]} />
+        <meshBasicMaterial
+          color="#1a1a2e"
+          transparent
+          opacity={0.15}
+          side={DoubleSide}
+        />
+      </mesh>
+
+      {/* Grid lines for quadrants */}
+      {/* Vertical line (statism = 0) */}
+      <Line
+        points={[[0, -1.5, 0], [0, 1.5, 0]]}
+        color="#666666"
+        lineWidth={2}
+      />
+      {/* Horizontal line (recognition = 0) */}
+      <Line
+        points={[[-1.5, 0, 0], [1.5, 0, 0]]}
+        color="#666666"
+        lineWidth={2}
+      />
+
+      {/* Quadrant Labels */}
+      <Text position={[-0.8, 0.8, 0.01]} fontSize={0.12} color="#4FC3F7">
+        Auth Left
+      </Text>
+      <Text position={[0.8, 0.8, 0.01]} fontSize={0.12} color="#81C784">
+        Auth Right
+      </Text>
+      <Text position={[-0.8, -0.8, 0.01]} fontSize={0.12} color="#E57373">
+        Lib Left
+      </Text>
+      <Text position={[0.8, -0.8, 0.01]} fontSize={0.12} color="#FFB74D">
+        Lib Right
+      </Text>
+
+      {/* User projection on the 2D plane */}
+      <mesh position={[userPosition.statism, userPosition.recognition, 0.02]}>
+        <circleGeometry args={[0.08, 32]} />
+        <meshBasicMaterial color="#FFD700" opacity={0.8} transparent />
+      </mesh>
+
+      {/* Connection line from 3D position to 2D projection */}
+      <Line
+        points={[
+          [userPosition.statism, userPosition.recognition, userPosition.sid],
+          [userPosition.statism, userPosition.recognition, 0]
+        ]}
+        color="#FFD700"
+        lineWidth={1}
+        dashed
+        dashScale={50}
+        dashSize={0.1}
+        gapSize={0.05}
+      />
+
+      {/* Axis labels on the plane */}
+      <Text position={[1.7, 0, 0.01]} fontSize={0.1} color="#4FC3F7">
+        Economic Right
+      </Text>
+      <Text position={[-1.7, 0, 0.01]} fontSize={0.1} color="#4FC3F7">
+        Economic Left
+      </Text>
+      <Text position={[0, 1.7, 0.01]} fontSize={0.1} color="#81C784">
+        Authoritarian
+      </Text>
+      <Text position={[0, -1.7, 0.01]} fontSize={0.1} color="#81C784">
+        Libertarian
+      </Text>
+
+      {/* Note label */}
+      <Html position={[0, -1.9, 0]}>
+        <div className="bg-gray-900/90 px-2 py-1 rounded text-white text-xs max-w-xs text-center">
+          Traditional 2D Political Compass (SID dimension not shown)
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+// Reference Plane Component - Semi-transparent planes at key positions
+function ReferencePlane({ position, color, opacity = 0.03, rotation = [Math.PI / 2, 0, 0] }) {
+  return (
+    <mesh position={position} rotation={rotation}>
+      <planeGeometry args={[3, 3]} />
+      <meshBasicMaterial color={color} transparent opacity={opacity} side={DoubleSide} />
+    </mesh>
   );
 }
 
@@ -179,7 +324,7 @@ function GridPlane() {
 }
 
 // Main Compass3D Component
-export default function Compass3D({ userPosition, showParties = false, showLeaders = false }) {
+export default function Compass3D({ userPosition, showParties = false, showLeaders = false, showCompass = false }) {
   return (
     <div className="w-full h-full">
       <Canvas
@@ -207,6 +352,14 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
 
         {/* Grid at origin */}
         <GridPlane />
+
+        {/* Reference Planes - Semi-transparent planes at neutral positions */}
+        <ReferencePlane position={[0, 0, 0]} color="#4FC3F7" rotation={[0, Math.PI / 2, 0]} />
+        <ReferencePlane position={[0, 0, 0]} color="#81C784" rotation={[Math.PI / 2, 0, 0]} />
+        <ReferencePlane position={[0, 0, 0]} color="#BA68C8" rotation={[0, 0, 0]} />
+
+        {/* Political Compass Plane (toggle-able) */}
+        <PoliticalCompassPlane userPosition={userPosition} visible={showCompass} />
 
         {/* Three Axes */}
         <Axis
@@ -242,12 +395,12 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
 
         {/* Party positions (if enabled) */}
         {showParties && parties.map((party) => (
-          <PartyStar key={party.id} party={party} />
+          <PartyStar key={party.id} party={party} userPosition={userPosition} />
         ))}
 
         {/* Leader positions (if enabled) */}
         {showLeaders && leaders.map((leader) => (
-          <LeaderStar key={leader.id} leader={leader} />
+          <LeaderStar key={leader.id} leader={leader} userPosition={userPosition} />
         ))}
 
         {/* Controls */}

@@ -13,6 +13,7 @@ const initialState = {
   results: null, // { statism, recognition, sid }
   showParties: false,
   showLeaders: false,
+  showCompass: false,
   isComplete: false,
   startTime: null,
 };
@@ -24,6 +25,7 @@ const ACTIONS = {
   CALCULATE_RESULTS: 'CALCULATE_RESULTS',
   TOGGLE_PARTIES: 'TOGGLE_PARTIES',
   TOGGLE_LEADERS: 'TOGGLE_LEADERS',
+  TOGGLE_COMPASS: 'TOGGLE_COMPASS',
   RESET: 'RESET',
   LOAD_SAVED_STATE: 'LOAD_SAVED_STATE',
   SET_START_TIME: 'SET_START_TIME',
@@ -65,6 +67,12 @@ function quizReducer(state, action) {
       return {
         ...state,
         showLeaders: !state.showLeaders,
+      };
+
+    case ACTIONS.TOGGLE_COMPASS:
+      return {
+        ...state,
+        showCompass: !state.showCompass,
       };
 
     case ACTIONS.RESET:
@@ -156,6 +164,10 @@ export function QuizProvider({ children }) {
     dispatch({ type: ACTIONS.TOGGLE_LEADERS });
   };
 
+  const toggleCompass = () => {
+    dispatch({ type: ACTIONS.TOGGLE_COMPASS });
+  };
+
   const resetQuiz = () => {
     localStorage.removeItem(STORAGE_KEY);
     dispatch({ type: ACTIONS.RESET });
@@ -218,6 +230,7 @@ export function QuizProvider({ children }) {
     results: state.results,
     showParties: state.showParties,
     showLeaders: state.showLeaders,
+    showCompass: state.showCompass,
     isComplete: state.isComplete,
     startTime: state.startTime,
 
@@ -227,6 +240,7 @@ export function QuizProvider({ children }) {
     calculateAndSetResults,
     toggleParties,
     toggleLeaders,
+    toggleCompass,
     resetQuiz,
     goToNextQuestion,
     goToPreviousQuestion,
