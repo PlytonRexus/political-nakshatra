@@ -139,7 +139,6 @@ function Axis({ start, end, color, label, labelPosition }) {
         color={color}
         anchorX="center"
         anchorY="middle"
-        font="/fonts/Inter-Bold.woff"
         outlineWidth={0.02}
         outlineColor="#000000"
       >
