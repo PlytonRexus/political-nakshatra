@@ -1,12 +1,14 @@
 // Quiz Container - Main quiz flow component
 
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useQuiz } from '../../contexts/QuizContext';
 import { QuestionCard } from './QuestionCard';
 import { ProgressBar } from './ProgressBar';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 
 export function QuizContainer() {
+  const { t } = useTranslation('common');
   const navigate = useNavigate();
   const {
     getCurrentQuestion,
@@ -69,7 +71,7 @@ export function QuizContainer() {
               }`}
           >
             <ArrowLeft size={20} />
-            Previous
+            {t('buttons.previous')}
           </button>
 
           <button
@@ -83,21 +85,16 @@ export function QuizContainer() {
           >
             {isLastQuestion() ? (
               <>
-                See Results
+                {t('nav.results')}
                 <CheckCircle size={20} />
               </>
             ) : (
               <>
-                Next
+                {t('buttons.next')}
                 <ArrowRight size={20} />
               </>
             )}
           </button>
-        </div>
-
-        {/* Keyboard navigation hint */}
-        <div className="text-center mt-6 text-sm text-gray-500">
-          <p>Tip: Use Tab to navigate options, Space/Enter to select</p>
         </div>
       </div>
     </div>
