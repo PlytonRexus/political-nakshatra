@@ -2,6 +2,9 @@
 
 import { BookOpen, Target, Database, Shield, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ComparisonDiagram } from '../components/comparison/ComparisonDiagram';
+import { AxisMappingTable } from '../components/comparison/AxisMappingTable';
+import { ModelFAQ } from '../components/comparison/ModelFAQ';
 
 export function About() {
   return (
@@ -29,6 +32,29 @@ export function About() {
               democracies like India:
             </p>
           </div>
+        </section>
+
+        {/* Comparison with Western Models */}
+        <section className="card mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <BookOpen className="text-purple-400" size={32} />
+            <h2 className="text-2xl font-bold text-white">Comparison with Western Political Models</h2>
+          </div>
+          <div className="space-y-4 text-gray-300">
+            <p>
+              Political Nakshatra is designed specifically for Indian political realities, while the Political
+              Compass and similar Western models were developed for liberal democracies in Europe and North America.
+              While there is some conceptual overlap, direct mapping between the frameworks is not possible.
+            </p>
+            <p>
+              Understanding how this model differs from familiar Western frameworks helps contextualize where you
+              stand in the Indian political constellation.
+            </p>
+          </div>
+
+          <ComparisonDiagram />
+          <AxisMappingTable />
+          <ModelFAQ />
         </section>
 
         {/* Three Axes Detailed */}
