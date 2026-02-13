@@ -1,16 +1,18 @@
 // Share Modal - Multiple export and sharing options
 
 import { useState, useRef } from 'react';
-import { X, Download, Share2, Copy, FileJson } from 'lucide-react';
+import { X, Download, Share2, Copy, FileJson, Link } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { ShareableResultsCard } from './ShareableResultsCard';
 import { getAxisLabel } from '../../utils/scoring';
 import { getPartiesByDistance } from '../../data/parties';
 import { calculateDistance, calculateMatchScore } from '../../utils/scoring';
+import { encodeResults } from '../../utils/urlSharing';
 
 export function ShareModal({ isOpen, onClose, userPosition }) {
   const [isExporting, setIsExporting] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   const cardRef = useRef(null);
 
   if (!isOpen) return null;
@@ -92,6 +94,19 @@ export function ShareModal({ isOpen, onClose, userPosition }) {
     URL.revokeObjectURL(url);
   };
 
+  const handleCopyLink = async () => {
+    try {
+      const encoded = encodeResults(userPosition);
+      const shareUrl = `${window.location.origin}/results?r=${encoded}`;
+      await navigator.clipboard.writeText(shareUrl);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    } catch (error) {
+      console.error('Failed to copy link:', error);
+      alert('Failed to copy link to clipboard');
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
@@ -119,6 +134,22 @@ export function ShareModal({ isOpen, onClose, userPosition }) {
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-white mb-4">Sharing Options</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Copy Share Link */}
+              <button
+                onClick={handleCopyLink}
+                className="flex items-center gap-3 px-6 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all"
+              >
+                <Link size={20} />
+                <div className="text-left">
+                  <div className="font-semibold">
+                    {linkCopied ? 'Link Copied!' : 'Copy Share Link'}
+                  </div>
+                  <div className="text-xs text-purple-200">
+                    Anyone with the link can view your results
+                  </div>
+                </div>
+              </button>
+
               {/* Download Image */}
               <button
                 onClick={handleDownloadImage}

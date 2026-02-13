@@ -1,14 +1,15 @@
 // Results Page - Shows 3D compass and analysis
 
 import { useEffect, Suspense, lazy, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useQuiz } from '../contexts/QuizContext';
 import { getAxisLabel, getAxisDescription, calculateDistance } from '../utils/scoring';
 import { getLeadersByDistance } from '../data/leaders';
 import { parties } from '../data/parties';
-import { Share2, RefreshCw, Eye, EyeOff, User } from 'lucide-react';
+import { Share2, RefreshCw, Eye, EyeOff, User, AlertCircle } from 'lucide-react';
 import { DetailedComparison } from '../components/results/DetailedComparison';
 import { ShareModal } from '../components/results/ShareModal';
+import { decodeResults } from '../utils/urlSharing';
 
 // Lazy load the 3D compass for better performance
 const Compass3D = lazy(() => import('../components/visualization/Compass3D'));
@@ -16,22 +17,48 @@ const Compass3D = lazy(() => import('../components/visualization/Compass3D'));
 export function Results() {
   const navigate = useNavigate();
   const { results, isComplete, resetQuiz, showParties, toggleParties, showLeaders, toggleLeaders, showCompass, toggleCompass } = useQuiz();
+  const [searchParams] = useSearchParams();
   const [activeSection, setActiveSection] = useState('overview');
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isSharedView, setIsSharedView] = useState(false);
+  const [displayResults, setDisplayResults] = useState(null);
+  const [urlError, setUrlError] = useState(false);
 
   useEffect(() => {
-    // Redirect to quiz if not complete
-    if (!isComplete || !results) {
+    const encodedResults = searchParams.get('r');
+
+    if (encodedResults) {
+      // Attempt to decode shared results from URL
+      const decoded = decodeResults(encodedResults);
+      if (decoded) {
+        setDisplayResults(decoded);
+        setIsSharedView(true);
+        setUrlError(false);
+        return; // Don't redirect
+      } else {
+        // Invalid URL parameter
+        setUrlError(true);
+        // Fall through to check context results
+      }
+    }
+
+    // Fall back to context results
+    if (isComplete && results) {
+      setDisplayResults(results);
+      setIsSharedView(false);
+      setUrlError(false);
+    } else {
+      // No results from URL or context, redirect to quiz
       navigate('/quiz');
     }
-  }, [isComplete, results, navigate]);
+  }, [searchParams, isComplete, results, navigate]);
 
-  if (!results) {
+  if (!displayResults) {
     return null; // Will redirect
   }
 
   // Calculate closest leaders
-  const closestLeaders = getLeadersByDistance(results, calculateDistance).slice(0, 5);
+  const closestLeaders = getLeadersByDistance(displayResults, calculateDistance).slice(0, 5);
 
   const handleRestart = () => {
     if (window.confirm('Are you sure you want to restart the quiz? Your current results will be lost.')) {
@@ -64,6 +91,42 @@ export function Results() {
           <h1 className="text-4xl font-bold text-white mb-2">Your Political Position</h1>
           <p className="text-gray-400">Explore your location in India's political constellation</p>
         </div>
+
+        {/* Shared View Banner */}
+        {isSharedView && (
+          <div className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4 mb-6">
+            <div className="flex items-center gap-3">
+              <Share2 className="text-blue-400" size={20} />
+              <div>
+                <p className="text-white font-semibold">You're viewing shared results</p>
+                <p className="text-sm text-gray-400">
+                  Want to find your own political position?
+                  <button
+                    onClick={() => navigate('/quiz')}
+                    className="ml-2 text-blue-400 hover:text-blue-300 underline"
+                  >
+                    Take the quiz
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Error Banner */}
+        {urlError && (
+          <div className="bg-red-900/30 border border-red-500/50 rounded-lg p-4 mb-6">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="text-red-400" size={20} />
+              <div>
+                <p className="text-white font-semibold">Invalid share link</p>
+                <p className="text-sm text-gray-400">
+                  The shared results link appears to be malformed or corrupted.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Sticky Navigation Tabs */}
         <div className="sticky top-0 z-40 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700 mb-8 -mx-4 px-4">
@@ -123,39 +186,39 @@ export function Results() {
             <div className="card border-l-4 border-blue-400">
               <h3 className="text-lg font-bold text-blue-400 mb-2">Statism</h3>
               <p className="text-2xl font-bold text-white mb-2">
-                {getAxisLabel(results.statism, 'statism')}
+                {getAxisLabel(displayResults.statism, 'statism')}
               </p>
               <p className="text-sm text-gray-400">
-                Score: {results.statism.toFixed(2)}
+                Score: {displayResults.statism.toFixed(2)}
               </p>
               <p className="text-sm text-gray-300 mt-4">
-                {getAxisDescription(results.statism, 'statism')}
+                {getAxisDescription(displayResults.statism, 'statism')}
               </p>
             </div>
 
             <div className="card border-l-4 border-green-400">
               <h3 className="text-lg font-bold text-green-400 mb-2">Recognition</h3>
               <p className="text-2xl font-bold text-white mb-2">
-                {getAxisLabel(results.recognition, 'recognition')}
+                {getAxisLabel(displayResults.recognition, 'recognition')}
               </p>
               <p className="text-sm text-gray-400">
-                Score: {results.recognition.toFixed(2)}
+                Score: {displayResults.recognition.toFixed(2)}
               </p>
               <p className="text-sm text-gray-300 mt-4">
-                {getAxisDescription(results.recognition, 'recognition')}
+                {getAxisDescription(displayResults.recognition, 'recognition')}
               </p>
             </div>
 
             <div className="card border-l-4 border-purple-400">
               <h3 className="text-lg font-bold text-purple-400 mb-2">SID</h3>
               <p className="text-2xl font-bold text-white mb-2">
-                {getAxisLabel(results.sid, 'sid')}
+                {getAxisLabel(displayResults.sid, 'sid')}
               </p>
               <p className="text-sm text-gray-400">
-                Score: {results.sid.toFixed(2)}
+                Score: {displayResults.sid.toFixed(2)}
               </p>
               <p className="text-sm text-gray-300 mt-4">
-                {getAxisDescription(results.sid, 'sid')}
+                {getAxisDescription(displayResults.sid, 'sid')}
               </p>
             </div>
           </div>
@@ -169,7 +232,7 @@ export function Results() {
                 <div className="text-gray-400">Loading 3D visualization...</div>
               </div>
             }>
-              <Compass3D userPosition={results} showParties={showParties} showLeaders={showLeaders} showCompass={showCompass} />
+              <Compass3D userPosition={displayResults} showParties={showParties} showLeaders={showLeaders} showCompass={showCompass} />
             </Suspense>
 
             {/* Toggle Buttons */}
@@ -209,7 +272,7 @@ export function Results() {
 
         {/* Comparisons Section */}
         <section id="comparisons" className="mb-8">
-          <DetailedComparison userPosition={results} showLeaders={showLeaders} />
+          <DetailedComparison userPosition={displayResults} showLeaders={showLeaders} />
         </section>
 
         {/* Details Section - Closest Leaders */}
@@ -272,20 +335,31 @@ export function Results() {
         {/* Actions */}
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           <button
-            onClick={handleShare}
+            onClick={isSharedView ? () => navigate('/quiz') : handleShare}
             className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all"
           >
-            <Share2 size={20} />
-            Share Results
+            {isSharedView ? (
+              <>
+                <User size={20} />
+                Take Quiz Yourself
+              </>
+            ) : (
+              <>
+                <Share2 size={20} />
+                Share Results
+              </>
+            )}
           </button>
 
-          <button
-            onClick={handleRestart}
-            className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all"
-          >
-            <RefreshCw size={20} />
-            Restart Quiz
-          </button>
+          {!isSharedView && (
+            <button
+              onClick={handleRestart}
+              className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all"
+            >
+              <RefreshCw size={20} />
+              Restart Quiz
+            </button>
+          )}
 
           <Link
             to="/about"
@@ -300,7 +374,7 @@ export function Results() {
       <ShareModal
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
-        userPosition={results}
+        userPosition={displayResults}
       />
     </div>
   );
