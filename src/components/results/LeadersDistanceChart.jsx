@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import { BarChart, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { getLeadersByDistance } from '../../data/leaders';
 import { parties } from '../../data/parties';
 import { calculateDistance, interpretDistance } from '../../utils/scoring';
 
 export function LeadersDistanceChart({ userPosition }) {
+  const { t } = useTranslation(['common', 'scoring']);
   const [showAll, setShowAll] = useState(false);
   const leadersWithDistance = getLeadersByDistance(userPosition, calculateDistance);
   const maxDistance = Math.max(...leadersWithDistance.map(l => l.distance));
@@ -26,10 +28,10 @@ export function LeadersDistanceChart({ userPosition }) {
     <div className="card">
       <div className="flex items-center gap-3 mb-2">
         <User className="text-purple-400" size={24} />
-        <h3 className="text-2xl font-bold text-white">Distance from Political Leaders</h3>
+        <h3 className="text-2xl font-bold text-white">{t('common:results.leaderDistance.title')}</h3>
       </div>
       <p className="text-gray-400 mb-6">
-        Visual representation of how far each leader is from your political position
+        {t('common:results.leaderDistance.description')}
       </p>
 
       <div className="space-y-3">
@@ -62,7 +64,7 @@ export function LeadersDistanceChart({ userPosition }) {
                   <span className="font-mono text-sm text-gray-300">{leader.distance.toFixed(3)}</span>
                   <div className="hidden group-hover:block relative">
                     <div className="absolute right-0 top-0 z-10 bg-gray-950 border border-gray-700 rounded px-2 py-1 text-xs text-gray-300 whitespace-nowrap -translate-y-full -mt-2">
-                      {interpretDistance(leader.distance, 'leader')}
+                      {interpretDistance(leader.distance, 'leader', t)}
                     </div>
                   </div>
                 </div>
@@ -76,7 +78,7 @@ export function LeadersDistanceChart({ userPosition }) {
                 {index === 0 && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-xs font-semibold text-white drop-shadow-md">
-                      Closest Match
+                      {t('common:results.labels.closestMatch')}
                     </span>
                   </div>
                 )}
@@ -92,7 +94,7 @@ export function LeadersDistanceChart({ userPosition }) {
             onClick={() => setShowAll(true)}
             className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm"
           >
-            Show {leadersWithDistance.length - displayLimit} More Leaders
+            {t('common:results.labels.showMore', { count: leadersWithDistance.length - displayLimit })}
           </button>
         </div>
       )}
@@ -103,14 +105,14 @@ export function LeadersDistanceChart({ userPosition }) {
             onClick={() => setShowAll(false)}
             className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm"
           >
-            Show Less
+            {t('common:results.labels.showLess')}
           </button>
         </div>
       )}
 
       <div className="mt-6 flex items-center justify-between text-xs text-gray-500">
-        <span>✓ Closer</span>
-        <span>→ Farther →</span>
+        <span>{t('common:results.labels.closer')}</span>
+        <span>{t('common:results.labels.farther')}</span>
       </div>
     </div>
   );

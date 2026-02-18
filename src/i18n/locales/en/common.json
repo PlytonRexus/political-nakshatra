@@ -123,6 +123,50 @@
     "english": "English",
     "marathi": "मराठी"
   },
+  "results": {
+    "closestPerAxis": {
+      "title": "Who's Closest to You on Each Dimension?",
+      "description": "Leaders who align most closely with you on each individual axis"
+    },
+    "quickSummary": {
+      "title": "Quick Summary",
+      "closestParty": "Closest Party",
+      "politicalLean": "Political Lean",
+      "matchScore": "Match Score",
+      "closestLeader": "Closest Leader",
+      "match": "match"
+    },
+    "positionInterpretation": {
+      "title": "Understanding Your Political Position",
+      "youLean": "Based on your responses, you lean",
+      "onTheSpectrum": "on the Indian political spectrum.",
+      "onStatism": "On the role of the state",
+      "onRecognition": "Regarding group rights",
+      "onSid": "For resource distribution",
+      "likelySupport": "You likely support policies such as:"
+    },
+    "leaderDistance": {
+      "title": "Distance from Political Leaders",
+      "description": "Visual representation of how far each leader is from your political position"
+    },
+    "partyDistance": {
+      "title": "Distance from Your Position",
+      "description": "Visual representation of how far each party is from your political position"
+    },
+    "labels": {
+      "yourScore": "Your score",
+      "difference": "Difference:",
+      "showMore": "Show {{count}} More Leaders",
+      "showLess": "Show Less",
+      "closestMatch": "Closest Match",
+      "closer": "✓ Closer",
+      "farther": "→ Farther →",
+      "veryClose": "Very Close!",
+      "close": "Close",
+      "moderate": "Moderate",
+      "different": "Different"
+    }
+  },
   "loading": "Loading...",
   "error": "An error occurred. Please try again."
 }

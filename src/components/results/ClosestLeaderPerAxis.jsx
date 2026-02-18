@@ -1,6 +1,7 @@
 // Closest Leader Per Axis Component - Shows who's closest on each dimension
 
 import { BarChart3, User, Scale } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { leaders } from '../../data/leaders';
 import { parties } from '../../data/parties';
 import { getClosestPerAxis, getComparativeDescription } from '../../utils/scoring';
@@ -24,13 +25,14 @@ const axisEmojis = {
 };
 
 export function ClosestLeaderPerAxis({ userPosition }) {
+  const { t } = useTranslation(['common', 'scoring']);
   const closestPerAxis = getClosestPerAxis(userPosition, leaders);
 
   const getDifferenceLabel = (diff) => {
-    if (diff < 0.05) return 'Very Close!';
-    if (diff < 0.15) return 'Close';
-    if (diff < 0.3) return 'Moderate';
-    return 'Different';
+    if (diff < 0.05) return t('common:results.labels.veryClose');
+    if (diff < 0.15) return t('common:results.labels.close');
+    if (diff < 0.3) return t('common:results.labels.moderate');
+    return t('common:results.labels.different');
   };
 
   const getDifferenceColor = (diff) => {
@@ -42,9 +44,11 @@ export function ClosestLeaderPerAxis({ userPosition }) {
 
   return (
     <div className="card">
-      <h3 className="text-2xl font-bold text-white mb-2">Who's Closest to You on Each Dimension?</h3>
+      <h3 className="text-2xl font-bold text-white mb-2">
+        {t('common:results.closestPerAxis.title')}
+      </h3>
       <p className="text-gray-400 mb-6">
-        Leaders who align most closely with you on each individual axis
+        {t('common:results.closestPerAxis.description')}
       </p>
 
       <div className="space-y-6">
@@ -84,7 +88,7 @@ export function ClosestLeaderPerAxis({ userPosition }) {
 
                   <div className="grid grid-cols-2 gap-4 mb-2">
                     <div>
-                      <div className="text-xs text-gray-500">Your score</div>
+                      <div className="text-xs text-gray-500">{t('common:results.labels.yourScore')}</div>
                       <div className="text-lg font-bold text-blue-400">{userValue.toFixed(2)}</div>
                     </div>
                     <div>
@@ -94,14 +98,14 @@ export function ClosestLeaderPerAxis({ userPosition }) {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-500">Difference:</span>
+                    <span className="text-xs text-gray-500">{t('common:results.labels.difference')}</span>
                     <span className={`text-sm font-bold ${getDifferenceColor(difference)}`}>
                       {difference.toFixed(3)} ({getDifferenceLabel(difference)})
                     </span>
                   </div>
 
                   <p className="text-xs text-gray-400 mt-2 italic">
-                    {getComparativeDescription(userValue, value, axis)}
+                    {getComparativeDescription(userValue, value, axis, t)}
                   </p>
                 </div>
               </div>

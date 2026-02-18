@@ -1,11 +1,14 @@
 // Quick Summary Component - Shows brief overview of results
 
 import { Target } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { getPartiesByDistance } from '../../data/parties';
 import { getLeadersByDistance } from '../../data/leaders';
 import { calculateDistance, calculateMatchScore, getPoliticalLean, interpretMatchPercentage, interpretDistance } from '../../utils/scoring';
 
 export function QuickSummary({ userPosition }) {
+  const { t } = useTranslation(['common', 'scoring']);
+
   // Get closest party and leader
   const partiesWithDistance = getPartiesByDistance(userPosition, calculateDistance);
   const leadersWithDistance = getLeadersByDistance(userPosition, calculateDistance);
@@ -14,39 +17,39 @@ export function QuickSummary({ userPosition }) {
   const closestLeader = leadersWithDistance[0];
 
   const partyMatchScore = calculateMatchScore(userPosition, closestParty.position);
-  const politicalLean = getPoliticalLean(userPosition);
+  const politicalLean = getPoliticalLean(userPosition, t);
 
   return (
     <div className="card bg-gradient-to-br from-blue-900/30 to-purple-900/30 border-2 border-blue-500/30">
       <div className="flex items-center gap-3 mb-4">
         <Target className="text-blue-400" size={28} />
-        <h3 className="text-2xl font-bold text-white">Quick Summary</h3>
+        <h3 className="text-2xl font-bold text-white">{t('common:results.quickSummary.title')}</h3>
       </div>
 
       <div className="grid md:grid-cols-3 gap-4">
         <div className="bg-black/30 rounded-lg p-4">
-          <div className="text-sm text-gray-400 mb-1">Closest Party</div>
+          <div className="text-sm text-gray-400 mb-1">{t('common:results.quickSummary.closestParty')}</div>
           <div className="text-lg font-bold text-white">{closestParty.abbreviation}</div>
           <div className="text-xs text-gray-500 mt-1">{closestParty.name}</div>
         </div>
 
         <div className="bg-black/30 rounded-lg p-4">
-          <div className="text-sm text-gray-400 mb-1">Political Lean</div>
+          <div className="text-sm text-gray-400 mb-1">{t('common:results.quickSummary.politicalLean')}</div>
           <div className="text-lg font-bold text-white">{politicalLean}</div>
         </div>
 
         <div className="bg-black/30 rounded-lg p-4">
-          <div className="text-sm text-gray-400 mb-1">Match Score</div>
+          <div className="text-sm text-gray-400 mb-1">{t('common:results.quickSummary.matchScore')}</div>
           <div className="text-lg font-bold text-green-400">{partyMatchScore}%</div>
           <div className="text-xs text-gray-500 mt-1">
-            {interpretMatchPercentage(partyMatchScore)} with {closestParty.abbreviation}
+            {interpretMatchPercentage(partyMatchScore, t)} with {closestParty.abbreviation}
           </div>
         </div>
       </div>
 
       {closestLeader && (
         <div className="mt-4 bg-black/30 rounded-lg p-4">
-          <div className="text-sm text-gray-400 mb-1">Closest Leader</div>
+          <div className="text-sm text-gray-400 mb-1">{t('common:results.quickSummary.closestLeader')}</div>
           <div className="flex items-center justify-between">
             <div>
               <div className="text-lg font-bold text-white">{closestLeader.name}</div>
@@ -54,10 +57,10 @@ export function QuickSummary({ userPosition }) {
             </div>
             <div className="text-right">
               <div className="text-sm font-semibold text-green-400">
-                {calculateMatchScore(userPosition, closestLeader.position)}% match
+                {calculateMatchScore(userPosition, closestLeader.position)}% {t('common:results.quickSummary.match')}
               </div>
               <div className="text-xs text-gray-500">
-                {interpretDistance(closestLeader.distance, 'leader')}
+                {interpretDistance(closestLeader.distance, 'leader', t)}
               </div>
             </div>
           </div>

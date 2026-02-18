@@ -52,5 +52,156 @@
         "low": "You accept or prefer particularist distribution based on identity networks and personal relationships. You believe politicians should prioritize their own communities and that personal connections are natural in governance."
       }
     }
+  },
+  "distance": {
+    "verySimilar": "Very similar - you align closely on most issues",
+    "moderate": "Moderate alignment - you share some major positions",
+    "significant": "Significant differences - you differ on several key issues",
+    "veryDifferent": "Very different - you have contrasting positions on most issues"
+  },
+  "match": {
+    "strong": "Strong alignment",
+    "moderate": "Moderate alignment",
+    "some": "Some alignment",
+    "low": "Low alignment"
+  },
+  "alignment": {
+    "verySimilar": "Very similar",
+    "similar": "Similar",
+    "somewhatDifferent": "Somewhat different",
+    "different": "Different"
+  },
+  "lean": {
+    "statist": "Statist",
+    "marketOriented": "Market-oriented",
+    "centrist": "Centrist",
+    "pluralist": "Pluralist",
+    "majoritarian": "Majoritarian",
+    "moderate": "Moderate",
+    "universalist": "Universalist",
+    "particularist": "Particularist",
+    "balanced": "Balanced",
+    "centristModerate": "Centrist Moderate"
+  },
+  "comparison": {
+    "statism": {
+      "more": "more state intervention",
+      "less": "less state intervention",
+      "similar": "similar views on the role of the state",
+      "youFavorMore": "You favor {{more}}, while they lean toward {{less}}.",
+      "youFavorLess": "You favor {{less}}, while they lean toward {{more}}.",
+      "similar_full": "You both have {{similar}}."
+    },
+    "recognition": {
+      "more": "more support for group-based rights and protections",
+      "less": "more emphasis on individual merit and uniform policies",
+      "similar": "similar views on group recognition",
+      "youFavorMore": "You favor {{more}}, while they lean toward {{less}}.",
+      "youFavorLess": "You favor {{less}}, while they lean toward {{more}}.",
+      "similar_full": "You both have {{similar}}."
+    },
+    "sid": {
+      "more": "more universalist, rule-based distribution",
+      "less": "more particularist, community-based distribution",
+      "similar": "similar views on resource distribution",
+      "youFavorMore": "You favor {{more}}, while they lean toward {{less}}.",
+      "youFavorLess": "You favor {{less}}, while they lean toward {{more}}.",
+      "similar_full": "You both have {{similar}}."
+    }
+  },
+  "examples": {
+    "statism": {
+      "veryHigh": [
+        "Government healthcare expansion and universal coverage",
+        "Public sector growth in key industries",
+        "State control of natural resources and utilities",
+        "Extensive welfare programs and subsidies"
+      ],
+      "high": [
+        "Mixed economy with strong state regulation",
+        "Government intervention in strategic sectors",
+        "Public education and infrastructure investment",
+        "Labor protection laws and minimum wage policies"
+      ],
+      "neutral": [
+        "Balanced public-private partnerships",
+        "Selective government intervention when needed",
+        "Mix of market forces and regulation"
+      ],
+      "low": [
+        "Market-based solutions for most sectors",
+        "Reduced government regulation in business",
+        "Privatization of non-strategic enterprises",
+        "Individual responsibility over state support"
+      ],
+      "veryLow": [
+        "Minimal government intervention in economy",
+        "Free market policies across all sectors",
+        "Private enterprise as primary driver",
+        "Voluntary community support over state welfare"
+      ]
+    },
+    "recognition": {
+      "veryHigh": [
+        "Strong SC/ST/OBC reservation policies in education and jobs",
+        "Minority rights protections and special provisions",
+        "Pluralistic approach to cultural diversity",
+        "State recognition of multiple identity groups"
+      ],
+      "high": [
+        "Affirmative action for disadvantaged communities",
+        "Protection of linguistic and religious minorities",
+        "Group-specific welfare schemes",
+        "Accommodation of diverse cultural practices"
+      ],
+      "neutral": [
+        "Balanced individual merit with targeted support",
+        "Case-by-case approach to group rights",
+        "Some reservations with economic criteria"
+      ],
+      "low": [
+        "Merit-based selection emphasis",
+        "Uniform civil code support",
+        "Individual-focused policies over group benefits",
+        "National unity over identity politics"
+      ],
+      "veryLow": [
+        "Strong opposition to caste/religion-based reservations",
+        "Assimilation into dominant culture",
+        "Majoritarian policies and uniform national identity",
+        "No special provisions for minority groups"
+      ]
+    },
+    "sid": {
+      "veryHigh": [
+        "Rule-based transparent allocation of government benefits",
+        "Objective criteria for welfare schemes (income, need)",
+        "Universal schemes like Aadhaar-linked transfers",
+        "Merit-based recruitment without patronage"
+      ],
+      "high": [
+        "Direct Benefit Transfer for subsidies",
+        "Transparent bidding for government contracts",
+        "Non-discriminatory access to public services",
+        "Rules-based governance over discretionary decisions"
+      ],
+      "neutral": [
+        "Mix of universal schemes and targeted programs",
+        "Some flexibility in distribution alongside rules",
+        "Balance between merit and community needs"
+      ],
+      "low": [
+        "Community-based distribution of resources",
+        "Political leaders prioritizing their constituencies",
+        "Identity-linked benefits and schemes",
+        "Personal connections as part of governance"
+      ],
+      "veryLow": [
+        "Patronage networks for resource access",
+        "Caste/religious community priority in benefits",
+        "Leader discretion over rule-based allocation",
+        "Traditional identity-based distribution systems"
+      ]
+    }
   }
 }
