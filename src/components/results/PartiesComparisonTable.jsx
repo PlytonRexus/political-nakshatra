@@ -103,9 +103,9 @@ export function PartiesComparisonTable({ userPosition }) {
       <div className="md:hidden space-y-4">
         {partiesWithDistance.map((party, index) => {
           const matchScore = calculateMatchScore(userPosition, party.position);
-          const statismAlign = getAxisAlignment(userPosition.statism, party.position.statism);
-          const recognitionAlign = getAxisAlignment(userPosition.recognition, party.position.recognition);
-          const sidAlign = getAxisAlignment(userPosition.sid, party.position.sid);
+          const statismAlign = getAxisAlignment(userPosition.statism, party.position.statism, t);
+          const recognitionAlign = getAxisAlignment(userPosition.recognition, party.position.recognition, t);
+          const sidAlign = getAxisAlignment(userPosition.sid, party.position.sid, t);
 
           return (
             <div

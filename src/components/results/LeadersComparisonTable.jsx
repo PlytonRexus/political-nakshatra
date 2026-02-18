@@ -115,9 +115,9 @@ export function LeadersComparisonTable({ userPosition }) {
       <div className="md:hidden space-y-4">
         {leadersWithDistance.map((leader, index) => {
           const matchScore = calculateMatchScore(userPosition, leader.position);
-          const statismAlign = getAxisAlignment(userPosition.statism, leader.position.statism);
-          const recognitionAlign = getAxisAlignment(userPosition.recognition, leader.position.recognition);
-          const sidAlign = getAxisAlignment(userPosition.sid, leader.position.sid);
+          const statismAlign = getAxisAlignment(userPosition.statism, leader.position.statism, t);
+          const recognitionAlign = getAxisAlignment(userPosition.recognition, leader.position.recognition, t);
+          const sidAlign = getAxisAlignment(userPosition.sid, leader.position.sid, t);
           const party = parties.find(p => p.id === leader.partyId);
 
           return (

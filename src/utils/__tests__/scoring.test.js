@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import {
-  likertToScore,
   calculateAxisScore,
   calculateResults,
   getAxisLabel,
@@ -12,34 +11,12 @@ import {
 } from '../scoring';
 import { questions } from '../../data/questions';
 
-describe('likertToScore', () => {
-  it('converts Likert value 1 (Strongly Disagree) to -2', () => {
-    expect(likertToScore(1)).toBe(-2);
-  });
-
-  it('converts Likert value 2 (Disagree) to -1', () => {
-    expect(likertToScore(2)).toBe(-1);
-  });
-
-  it('converts Likert value 3 (Neutral) to 0', () => {
-    expect(likertToScore(3)).toBe(0);
-  });
-
-  it('converts Likert value 4 (Agree) to 1', () => {
-    expect(likertToScore(4)).toBe(1);
-  });
-
-  it('converts Likert value 5 (Strongly Agree) to 2', () => {
-    expect(likertToScore(5)).toBe(2);
-  });
-});
-
 describe('calculateAxisScore', () => {
   it('returns 0 for empty responses', () => {
     expect(calculateAxisScore({}, 'statism')).toBe(0);
   });
 
-  it('returns 1 when all statism questions are Strongly Agree (5)', () => {
+  it('returns 10 when all statism questions are Strongly Agree (5)', () => {
     const responses = {};
     questions
       .filter(q => q.axis === 'statism' && !q.reverse)
@@ -53,10 +30,10 @@ describe('calculateAxisScore', () => {
       });
 
     const score = calculateAxisScore(responses, 'statism');
-    expect(score).toBeCloseTo(1, 2);
+    expect(score).toBeCloseTo(10, 2);
   });
 
-  it('returns -1 when all statism questions are Strongly Disagree (1)', () => {
+  it('returns -10 when all statism questions are Strongly Disagree (1)', () => {
     const responses = {};
     questions
       .filter(q => q.axis === 'statism' && !q.reverse)
@@ -70,7 +47,7 @@ describe('calculateAxisScore', () => {
       });
 
     const score = calculateAxisScore(responses, 'statism');
-    expect(score).toBeCloseTo(-1, 2);
+    expect(score).toBeCloseTo(-10, 2);
   });
 
   it('returns 0 when all statism questions are Neutral (3)', () => {
@@ -106,8 +83,8 @@ describe('calculateAxisScore', () => {
     };
 
     const score = calculateAxisScore(responses, 'statism');
-    expect(score).toBeGreaterThanOrEqual(-1);
-    expect(score).toBeLessThanOrEqual(1);
+    expect(score).toBeGreaterThanOrEqual(-10);
+    expect(score).toBeLessThanOrEqual(10);
   });
 
   it('respects question weights', () => {
@@ -118,8 +95,8 @@ describe('calculateAxisScore', () => {
         [weightedQuestion.id]: 5,
       };
       const score = calculateAxisScore(responses, weightedQuestion.axis);
-      expect(score).toBeGreaterThanOrEqual(-1);
-      expect(score).toBeLessThanOrEqual(1);
+      expect(score).toBeGreaterThanOrEqual(-10);
+      expect(score).toBeLessThanOrEqual(10);
     }
   });
 });
@@ -134,28 +111,28 @@ describe('calculateResults', () => {
     });
   });
 
-  it('returns (1, 1, 1) when all questions are Strongly Agree (with reverse handling)', () => {
+  it('returns (10, 10, 10) when all questions are Strongly Agree (with reverse handling)', () => {
     const responses = {};
     questions.forEach(q => {
       responses[q.id] = q.reverse ? 1 : 5;
     });
 
     const results = calculateResults(responses);
-    expect(results.statism).toBeCloseTo(1, 1);
-    expect(results.recognition).toBeCloseTo(1, 1);
-    expect(results.sid).toBeCloseTo(1, 1);
+    expect(results.statism).toBeCloseTo(10, 1);
+    expect(results.recognition).toBeCloseTo(10, 1);
+    expect(results.sid).toBeCloseTo(10, 1);
   });
 
-  it('returns (-1, -1, -1) when all questions are Strongly Disagree (with reverse handling)', () => {
+  it('returns (-10, -10, -10) when all questions are Strongly Disagree (with reverse handling)', () => {
     const responses = {};
     questions.forEach(q => {
       responses[q.id] = q.reverse ? 5 : 1;
     });
 
     const results = calculateResults(responses);
-    expect(results.statism).toBeCloseTo(-1, 1);
-    expect(results.recognition).toBeCloseTo(-1, 1);
-    expect(results.sid).toBeCloseTo(-1, 1);
+    expect(results.statism).toBeCloseTo(-10, 1);
+    expect(results.recognition).toBeCloseTo(-10, 1);
+    expect(results.sid).toBeCloseTo(-10, 1);
   });
 
   it('returns (0, 0, 0) when all questions are Neutral (3)', () => {
@@ -178,7 +155,7 @@ describe('calculateResults', () => {
     });
 
     const results = calculateResults(responses);
-    expect(results.statism).toBeCloseTo(1, 1);
+    expect(results.statism).toBeCloseTo(10, 1);
     expect(results.recognition).toBe(0);
     expect(results.sid).toBe(0);
   });
@@ -187,32 +164,32 @@ describe('calculateResults', () => {
 describe('getAxisLabel', () => {
   it('returns neutral label for values close to 0', () => {
     expect(getAxisLabel(0, 'statism')).toBe('Centrist on Statism');
-    expect(getAxisLabel(0.1, 'recognition')).toBe('Centrist on Recognition');
-    expect(getAxisLabel(-0.14, 'sid')).toBe('Centrist on SID');
+    expect(getAxisLabel(1, 'recognition')).toBe('Centrist on Recognition');
+    expect(getAxisLabel(-1.4, 'sid')).toBe('Centrist on SID');
   });
 
   it('returns "Slightly" label for small positive values', () => {
-    expect(getAxisLabel(0.2, 'statism')).toBe('Slightly High Statism');
+    expect(getAxisLabel(2, 'statism')).toBe('Slightly High Statism');
   });
 
   it('returns "Moderately" label for medium positive values', () => {
-    expect(getAxisLabel(0.5, 'recognition')).toBe('Moderately Pro-Recognition');
+    expect(getAxisLabel(5, 'recognition')).toBe('Moderately Pro-Recognition');
   });
 
   it('returns "Very" label for large positive values', () => {
-    expect(getAxisLabel(0.8, 'sid')).toBe('Very Universalist');
+    expect(getAxisLabel(8, 'sid')).toBe('Very Universalist');
   });
 
   it('returns "Slightly" label for small negative values', () => {
-    expect(getAxisLabel(-0.25, 'statism')).toBe('Slightly Low Statism');
+    expect(getAxisLabel(-2.5, 'statism')).toBe('Slightly Low Statism');
   });
 
   it('returns "Moderately" label for medium negative values', () => {
-    expect(getAxisLabel(-0.4, 'recognition')).toBe('Moderately Anti-Recognition');
+    expect(getAxisLabel(-4, 'recognition')).toBe('Moderately Anti-Recognition');
   });
 
   it('returns "Very" label for large negative values', () => {
-    expect(getAxisLabel(-0.9, 'sid')).toBe('Very Particularist');
+    expect(getAxisLabel(-9, 'sid')).toBe('Very Particularist');
   });
 });
 
@@ -223,19 +200,19 @@ describe('getAxisDescription', () => {
   });
 
   it('returns high description for positive values', () => {
-    const desc = getAxisDescription(0.7, 'statism');
+    const desc = getAxisDescription(7, 'statism');
     expect(desc).toContain('strong role');
   });
 
   it('returns low description for negative values', () => {
-    const desc = getAxisDescription(-0.7, 'statism');
+    const desc = getAxisDescription(-7, 'statism');
     expect(desc).toContain('minimal state intervention');
   });
 
   it('handles all three axes', () => {
-    expect(getAxisDescription(0.5, 'statism')).toBeTruthy();
-    expect(getAxisDescription(0.5, 'recognition')).toBeTruthy();
-    expect(getAxisDescription(0.5, 'sid')).toBeTruthy();
+    expect(getAxisDescription(5, 'statism')).toBeTruthy();
+    expect(getAxisDescription(5, 'recognition')).toBeTruthy();
+    expect(getAxisDescription(5, 'sid')).toBeTruthy();
   });
 });
 
@@ -290,26 +267,26 @@ describe('isQuizComplete', () => {
 
 describe('calculateDistance', () => {
   it('returns 0 for identical positions', () => {
-    const pos = { statism: 0.5, recognition: -0.3, sid: 0.8 };
+    const pos = { statism: 5, recognition: -3, sid: 8 };
     expect(calculateDistance(pos, pos)).toBe(0);
   });
 
   it('calculates correct Euclidean distance', () => {
     const pos1 = { statism: 0, recognition: 0, sid: 0 };
-    const pos2 = { statism: 1, recognition: 0, sid: 0 };
-    expect(calculateDistance(pos1, pos2)).toBeCloseTo(1, 5);
+    const pos2 = { statism: 10, recognition: 0, sid: 0 };
+    expect(calculateDistance(pos1, pos2)).toBeCloseTo(10, 5);
   });
 
   it('calculates distance in 3D space', () => {
     const pos1 = { statism: 0, recognition: 0, sid: 0 };
-    const pos2 = { statism: 1, recognition: 1, sid: 1 };
-    expect(calculateDistance(pos1, pos2)).toBeCloseTo(Math.sqrt(3), 5);
+    const pos2 = { statism: 10, recognition: 10, sid: 10 };
+    expect(calculateDistance(pos1, pos2)).toBeCloseTo(Math.sqrt(300), 5);
   });
 
   it('handles negative coordinates', () => {
-    const pos1 = { statism: -1, recognition: -1, sid: -1 };
-    const pos2 = { statism: 1, recognition: 1, sid: 1 };
-    expect(calculateDistance(pos1, pos2)).toBeCloseTo(Math.sqrt(12), 5);
+    const pos1 = { statism: -10, recognition: -10, sid: -10 };
+    const pos2 = { statism: 10, recognition: 10, sid: 10 };
+    expect(calculateDistance(pos1, pos2)).toBeCloseTo(Math.sqrt(1200), 5);
   });
 });
 
@@ -318,12 +295,12 @@ describe('findClosestParty', () => {
     {
       id: 'party1',
       name: 'Party 1',
-      position: { statism: 0.5, recognition: 0.5, sid: 0.5 },
+      position: { statism: 5, recognition: 5, sid: 5 },
     },
     {
       id: 'party2',
       name: 'Party 2',
-      position: { statism: -0.5, recognition: -0.5, sid: -0.5 },
+      position: { statism: -5, recognition: -5, sid: -5 },
     },
     {
       id: 'party3',
@@ -333,15 +310,15 @@ describe('findClosestParty', () => {
   ];
 
   it('finds the closest party correctly', () => {
-    const userPosition = { statism: 0.1, recognition: 0.1, sid: 0.1 };
+    const userPosition = { statism: 1, recognition: 1, sid: 1 };
     const result = findClosestParty(userPosition, mockParties);
 
     expect(result.party.id).toBe('party3');
-    expect(result.distance).toBeCloseTo(Math.sqrt(0.03), 5);
+    expect(result.distance).toBeCloseTo(Math.sqrt(3), 5);
   });
 
   it('returns exact match with distance 0', () => {
-    const userPosition = { statism: 0.5, recognition: 0.5, sid: 0.5 };
+    const userPosition = { statism: 5, recognition: 5, sid: 5 };
     const result = findClosestParty(userPosition, mockParties);
 
     expect(result.party.id).toBe('party1');
@@ -349,7 +326,7 @@ describe('findClosestParty', () => {
   });
 
   it('handles distant positions', () => {
-    const userPosition = { statism: 1, recognition: 1, sid: 1 };
+    const userPosition = { statism: 10, recognition: 10, sid: 10 };
     const result = findClosestParty(userPosition, mockParties);
 
     expect(result.party).toBeTruthy();
