@@ -3,18 +3,18 @@ import { questions, likertOptions } from '../questions';
 import { parties } from '../parties';
 
 describe('Questions Data Validation', () => {
-  it('has exactly 36 questions', () => {
-    expect(questions.length).toBe(36);
+  it('has exactly 15 questions', () => {
+    expect(questions.length).toBe(15);
   });
 
-  it('has 12 questions per axis', () => {
+  it('has 5 questions per axis', () => {
     const statismQuestions = questions.filter(q => q.axis === 'statism');
     const recognitionQuestions = questions.filter(q => q.axis === 'recognition');
     const sidQuestions = questions.filter(q => q.axis === 'sid');
 
-    expect(statismQuestions.length).toBe(12);
-    expect(recognitionQuestions.length).toBe(12);
-    expect(sidQuestions.length).toBe(12);
+    expect(statismQuestions.length).toBe(5);
+    expect(recognitionQuestions.length).toBe(5);
+    expect(sidQuestions.length).toBe(5);
   });
 
   it('has unique question IDs', () => {
@@ -28,14 +28,12 @@ describe('Questions Data Validation', () => {
       expect(question).toHaveProperty('id');
       expect(question).toHaveProperty('axis');
       expect(question).toHaveProperty('category');
-      expect(question).toHaveProperty('text');
       expect(question).toHaveProperty('reverse');
       expect(question).toHaveProperty('weight');
 
-      expect(typeof question.id).toBe('number');
+      expect(typeof question.id).toBe('string');
       expect(typeof question.axis).toBe('string');
       expect(typeof question.category).toBe('string');
-      expect(typeof question.text).toBe('string');
       expect(typeof question.reverse).toBe('boolean');
       expect(typeof question.weight).toBe('number');
     });
@@ -45,12 +43,6 @@ describe('Questions Data Validation', () => {
     const validAxes = ['statism', 'recognition', 'sid'];
     questions.forEach(question => {
       expect(validAxes).toContain(question.axis);
-    });
-  });
-
-  it('all questions have non-empty text', () => {
-    questions.forEach(question => {
-      expect(question.text.length).toBeGreaterThan(0);
     });
   });
 
@@ -66,13 +58,13 @@ describe('Questions Data Validation', () => {
     });
   });
 
-  it('has a reasonable distribution of reverse-scored questions', () => {
+  it('has exactly 4 reverse-scored questions', () => {
     const reverseQuestions = questions.filter(q => q.reverse === true);
-    const normalQuestions = questions.filter(q => q.reverse === false);
+    expect(reverseQuestions.length).toBe(4);
 
-    // At least 20% should be reverse-scored to avoid response bias
-    expect(reverseQuestions.length).toBeGreaterThanOrEqual(questions.length * 0.2);
-    expect(normalQuestions.length).toBeGreaterThanOrEqual(questions.length * 0.2);
+    // Verify the specific inverted questions
+    const reverseIds = reverseQuestions.map(q => q.id).sort();
+    expect(reverseIds).toEqual(['RC_02', 'RC_04', 'SID_04', 'ST_05']);
   });
 
   it('each axis has at least one reverse-scored question', () => {
@@ -90,11 +82,29 @@ describe('Questions Data Validation', () => {
     });
   });
 
-  it('question IDs are sequential starting from 1', () => {
-    const ids = questions.map(q => q.id).sort((a, b) => a - b);
-    for (let i = 0; i < ids.length; i++) {
-      expect(ids[i]).toBe(i + 1);
-    }
+  it('question IDs follow semantic format (ST_XX, RC_XX, SID_XX)', () => {
+    const validIdPattern = /^(ST|RC|SID)_0[1-5]$/;
+    questions.forEach(question => {
+      expect(validIdPattern.test(question.id)).toBe(true);
+    });
+  });
+
+  it('statism questions have IDs ST_01 through ST_05', () => {
+    const statismQuestions = questions.filter(q => q.axis === 'statism');
+    const statismIds = statismQuestions.map(q => q.id).sort();
+    expect(statismIds).toEqual(['ST_01', 'ST_02', 'ST_03', 'ST_04', 'ST_05']);
+  });
+
+  it('recognition questions have IDs RC_01 through RC_05', () => {
+    const recognitionQuestions = questions.filter(q => q.axis === 'recognition');
+    const recognitionIds = recognitionQuestions.map(q => q.id).sort();
+    expect(recognitionIds).toEqual(['RC_01', 'RC_02', 'RC_03', 'RC_04', 'RC_05']);
+  });
+
+  it('SID questions have IDs SID_01 through SID_05', () => {
+    const sidQuestions = questions.filter(q => q.axis === 'sid');
+    const sidIds = sidQuestions.map(q => q.id).sort();
+    expect(sidIds).toEqual(['SID_01', 'SID_02', 'SID_03', 'SID_04', 'SID_05']);
   });
 });
 
@@ -169,16 +179,16 @@ describe('Parties Data Validation', () => {
     });
   });
 
-  it('all party positions are within valid range [-1, 1]', () => {
+  it('all party positions are within valid range [-10, 10]', () => {
     parties.forEach(party => {
-      expect(party.position.statism).toBeGreaterThanOrEqual(-1);
-      expect(party.position.statism).toBeLessThanOrEqual(1);
+      expect(party.position.statism).toBeGreaterThanOrEqual(-10);
+      expect(party.position.statism).toBeLessThanOrEqual(10);
 
-      expect(party.position.recognition).toBeGreaterThanOrEqual(-1);
-      expect(party.position.recognition).toBeLessThanOrEqual(1);
+      expect(party.position.recognition).toBeGreaterThanOrEqual(-10);
+      expect(party.position.recognition).toBeLessThanOrEqual(10);
 
-      expect(party.position.sid).toBeGreaterThanOrEqual(-1);
-      expect(party.position.sid).toBeLessThanOrEqual(1);
+      expect(party.position.sid).toBeGreaterThanOrEqual(-10);
+      expect(party.position.sid).toBeLessThanOrEqual(10);
     });
   });
 

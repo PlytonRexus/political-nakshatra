@@ -4,10 +4,9 @@ import { QuestionCard } from '../QuestionCard';
 
 describe('QuestionCard', () => {
   const mockQuestion = {
-    id: 1,
+    id: 'ST_01',
     axis: 'statism',
     category: 'economic',
-    text: 'The government should control key industries.',
     reverse: false,
     weight: 1.0,
   };
@@ -15,7 +14,7 @@ describe('QuestionCard', () => {
   it('renders question text', () => {
     render(<QuestionCard question={mockQuestion} value={null} onAnswer={() => {}} />);
 
-    expect(screen.getByText('The government should control key industries.')).toBeInTheDocument();
+    expect(screen.getByText(/A major national airline, employing tens of thousands of citizens/)).toBeInTheDocument();
   });
 
   it('displays axis label', () => {
@@ -39,7 +38,7 @@ describe('QuestionCard', () => {
   });
 
   it('applies correct color class for recognition axis', () => {
-    const recognitionQuestion = { ...mockQuestion, axis: 'recognition' };
+    const recognitionQuestion = { ...mockQuestion, id: 'RC_01', axis: 'recognition', category: 'affirmative_action' };
     const { container } = render(<QuestionCard question={recognitionQuestion} value={null} onAnswer={() => {}} />);
 
     const axisLabel = container.querySelector('.text-green-400');
@@ -48,12 +47,12 @@ describe('QuestionCard', () => {
   });
 
   it('applies correct color class for sid axis', () => {
-    const sidQuestion = { ...mockQuestion, axis: 'sid' };
+    const sidQuestion = { ...mockQuestion, id: 'SID_01', axis: 'sid', category: 'governance' };
     const { container } = render(<QuestionCard question={sidQuestion} value={null} onAnswer={() => {}} />);
 
     const axisLabel = container.querySelector('.text-purple-400');
     expect(axisLabel).toBeInTheDocument();
-    expect(axisLabel).toHaveTextContent('SID (Distribution)');
+    expect(axisLabel).toHaveTextContent('SID');
   });
 
   it('formats category with underscores correctly', () => {
@@ -83,7 +82,7 @@ describe('QuestionCard', () => {
   it('displays help text at bottom', () => {
     render(<QuestionCard question={mockQuestion} value={null} onAnswer={() => {}} />);
 
-    expect(screen.getByText('Select your level of agreement with this statement.')).toBeInTheDocument();
+    expect(screen.getByText('Answer all questions on a scale from Strongly Disagree to Strongly Agree')).toBeInTheDocument();
   });
 
   it('passes question id to LikertScale', () => {
@@ -91,7 +90,7 @@ describe('QuestionCard', () => {
 
     const radioInputs = screen.getAllByRole('radio');
     radioInputs.forEach(input => {
-      expect(input.name).toBe('question-1');
+      expect(input.name).toBe('question-ST_01');
     });
   });
 });

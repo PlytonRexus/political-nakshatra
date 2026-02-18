@@ -25,7 +25,7 @@ export function QuestionCard({ question, value, onAnswer }) {
           </span>
         </div>
         <h2 className="text-xl md:text-2xl font-semibold text-gray-100 leading-relaxed">
-          {t(`questions:questions.${question.id - 1}.text`)}
+          {t(`questions:${question.id}.text`)}
         </h2>
       </div>
 
