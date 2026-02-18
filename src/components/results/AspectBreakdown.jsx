@@ -1,5 +1,6 @@
 // Aspect Breakdown Component - Detailed axis-by-axis comparison with closest match
 
+import { useTranslation } from 'react-i18next';
 import { TrendingUp, ArrowRight } from 'lucide-react';
 import { parties } from '../../data/parties';
 import { getAxisAlignment } from '../../utils/scoring';
@@ -23,6 +24,7 @@ const axisInfo = {
 };
 
 export function AspectBreakdown({ userPosition, targetEntity }) {
+  const { t } = useTranslation('scoring');
   const axes = ['statism', 'recognition', 'sid'];
 
   const getBarPosition = (value) => {
@@ -86,7 +88,7 @@ export function AspectBreakdown({ userPosition, targetEntity }) {
         {axes.map(axis => {
           const userValue = userPosition[axis];
           const targetValue = targetEntity.position[axis];
-          const alignment = getAxisAlignment(userValue, targetValue);
+          const alignment = getAxisAlignment(userValue, targetValue, t);
           const info = axisInfo[axis];
 
           return (

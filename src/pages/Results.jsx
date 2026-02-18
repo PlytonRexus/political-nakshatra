@@ -2,6 +2,7 @@
 
 import { useEffect, Suspense, lazy, useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useQuiz } from '../contexts/QuizContext';
 import { getAxisLabel, getAxisDescription, calculateDistance, getAxisExamples } from '../utils/scoring';
 import { getLeadersByDistance } from '../data/leaders';
@@ -17,6 +18,7 @@ const Compass3D = lazy(() => import('../components/visualization/Compass3D'));
 
 export function Results() {
   const navigate = useNavigate();
+  const { t } = useTranslation('scoring');
   const { results, isComplete, resetQuiz, showParties, toggleParties, showLeaders, toggleLeaders, showCompass, toggleCompass } = useQuiz();
   const [searchParams] = useSearchParams();
   const [activeSection, setActiveSection] = useState('overview');
@@ -198,7 +200,7 @@ export function Results() {
               <div className="mt-3 p-3 bg-blue-900/20 rounded border border-blue-500/30">
                 <p className="text-xs font-semibold text-gray-400 mb-2">For example, you likely support:</p>
                 <ul className="text-xs text-gray-300 space-y-1">
-                  {getAxisExamples(displayResults.statism, 'statism').map((example, i) => (
+                  {getAxisExamples(displayResults.statism, 'statism', t).map((example, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-blue-400 mt-0.5">•</span>
                       <span>{example}</span>
@@ -222,7 +224,7 @@ export function Results() {
               <div className="mt-3 p-3 bg-green-900/20 rounded border border-green-500/30">
                 <p className="text-xs font-semibold text-gray-400 mb-2">For example, you likely support:</p>
                 <ul className="text-xs text-gray-300 space-y-1">
-                  {getAxisExamples(displayResults.recognition, 'recognition').map((example, i) => (
+                  {getAxisExamples(displayResults.recognition, 'recognition', t).map((example, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-green-400 mt-0.5">•</span>
                       <span>{example}</span>
@@ -246,7 +248,7 @@ export function Results() {
               <div className="mt-3 p-3 bg-purple-900/20 rounded border border-purple-500/30">
                 <p className="text-xs font-semibold text-gray-400 mb-2">For example, you likely support:</p>
                 <ul className="text-xs text-gray-300 space-y-1">
-                  {getAxisExamples(displayResults.sid, 'sid').map((example, i) => (
+                  {getAxisExamples(displayResults.sid, 'sid', t).map((example, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-purple-400 mt-0.5">•</span>
                       <span>{example}</span>

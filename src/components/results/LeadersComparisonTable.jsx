@@ -1,10 +1,12 @@
 // Leaders Comparison Table - Shows detailed comparison with all leaders
 
+import { useTranslation } from 'react-i18next';
 import { getLeadersByDistance } from '../../data/leaders';
 import { parties } from '../../data/parties';
 import { calculateDistance, calculateMatchScore, getAxisAlignment, interpretDistance } from '../../utils/scoring';
 
 export function LeadersComparisonTable({ userPosition }) {
+  const { t } = useTranslation('scoring');
   const leadersWithDistance = getLeadersByDistance(userPosition, calculateDistance);
 
   const getSymbolColor = (symbol) => {
@@ -36,9 +38,9 @@ export function LeadersComparisonTable({ userPosition }) {
           <tbody>
             {leadersWithDistance.map((leader, index) => {
               const matchScore = calculateMatchScore(userPosition, leader.position);
-              const statismAlign = getAxisAlignment(userPosition.statism, leader.position.statism);
-              const recognitionAlign = getAxisAlignment(userPosition.recognition, leader.position.recognition);
-              const sidAlign = getAxisAlignment(userPosition.sid, leader.position.sid);
+              const statismAlign = getAxisAlignment(userPosition.statism, leader.position.statism, t);
+              const recognitionAlign = getAxisAlignment(userPosition.recognition, leader.position.recognition, t);
+              const sidAlign = getAxisAlignment(userPosition.sid, leader.position.sid, t);
               const party = parties.find(p => p.id === leader.partyId);
 
               return (
@@ -88,7 +90,7 @@ export function LeadersComparisonTable({ userPosition }) {
                   <td className="py-4 px-4 text-center group relative">
                     <span className="font-mono text-gray-300">{leader.distance.toFixed(3)}</span>
                     <div className="hidden group-hover:block absolute z-10 bg-gray-950 border border-gray-700 rounded px-2 py-1 text-xs text-gray-300 whitespace-nowrap -top-8 left-1/2 -translate-x-1/2">
-                      {interpretDistance(leader.distance, 'leader')}
+                      {interpretDistance(leader.distance, 'leader', t)}
                     </div>
                   </td>
                   <td className="py-4 px-4 text-right">

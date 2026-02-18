@@ -1,9 +1,11 @@
 // Parties Comparison Table - Shows detailed comparison with all parties
 
+import { useTranslation } from 'react-i18next';
 import { getPartiesByDistance } from '../../data/parties';
 import { calculateDistance, calculateMatchScore, getAxisAlignment, interpretDistance } from '../../utils/scoring';
 
 export function PartiesComparisonTable({ userPosition }) {
+  const { t } = useTranslation('scoring');
   const partiesWithDistance = getPartiesByDistance(userPosition, calculateDistance);
 
   const getSymbolColor = (symbol) => {
@@ -35,9 +37,9 @@ export function PartiesComparisonTable({ userPosition }) {
           <tbody>
             {partiesWithDistance.map((party, index) => {
               const matchScore = calculateMatchScore(userPosition, party.position);
-              const statismAlign = getAxisAlignment(userPosition.statism, party.position.statism);
-              const recognitionAlign = getAxisAlignment(userPosition.recognition, party.position.recognition);
-              const sidAlign = getAxisAlignment(userPosition.sid, party.position.sid);
+              const statismAlign = getAxisAlignment(userPosition.statism, party.position.statism, t);
+              const recognitionAlign = getAxisAlignment(userPosition.recognition, party.position.recognition, t);
+              const sidAlign = getAxisAlignment(userPosition.sid, party.position.sid, t);
 
               return (
                 <tr
@@ -76,7 +78,7 @@ export function PartiesComparisonTable({ userPosition }) {
                   <td className="py-4 px-4 text-center group relative">
                     <span className="font-mono text-gray-300">{party.distance.toFixed(3)}</span>
                     <div className="hidden group-hover:block absolute z-10 bg-gray-950 border border-gray-700 rounded px-2 py-1 text-xs text-gray-300 whitespace-nowrap -top-8 left-1/2 -translate-x-1/2">
-                      {interpretDistance(party.distance, 'party')}
+                      {interpretDistance(party.distance, 'party', t)}
                     </div>
                   </td>
                   <td className="py-4 px-4 text-right">
