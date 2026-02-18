@@ -1,148 +1,64 @@
 {
   "questions": [
     {
-      "id": 1,
-      "text": "The government should directly control key industries like steel, coal, and railways rather than privatizing them."
+      "id": "ST_01",
+      "text": "A major national airline, employing tens of thousands of citizens, is on the verge of total bankruptcy due to severe financial mismanagement. The government must use taxpayer funds to bail out the company to save jobs and protect communities, rather than letting the free market dictate its collapse."
     },
     {
-      "id": 2,
-      "text": "Direct Benefit Transfers (DBT) and welfare schemes like PM-KISAN are essential government responsibilities, not optional programs."
+      "id": "ST_02",
+      "text": "In a rapidly growing city experiencing severe inflation, the government is entirely justified in imposing strict, non-negotiable price controls on essential groceries and residential rent, even if this policy forces private businesses and landlords to operate at a significant financial loss."
     },
     {
-      "id": 3,
-      "text": "Private companies should have minimal restrictions on hiring, firing, and labor practices."
+      "id": "ST_03",
+      "text": "A community is suffering from a prolonged water shortage. It is morally and administratively superior for the government to provide every household with a basic, free water allowance funded by heavy taxation, rather than allowing private utility companies to sell water at market prices to encourage conservation."
     },
     {
-      "id": 4,
-      "text": "The government should heavily regulate prices of essential commodities like food grains and fuel."
+      "id": "ST_04",
+      "text": "To effectively eliminate deeply entrenched historical inequalities, the state should possess the legal authority to forcibly acquire excess agricultural land and corporate assets from the ultra-wealthy and directly redistribute them to landless citizens."
     },
     {
-      "id": 5,
-      "text": "Infrastructure development (roads, electricity, water) is best handled by government agencies rather than private contractors."
+      "id": "ST_05",
+      "text": "If a citizen makes consistently poor financial and health choices throughout their life, the ultimate burden of their medical and retirement care should fall primarily on their own family and personal savings, not on a taxpayer-funded government safety net."
     },
     {
-      "id": 6,
-      "text": "The government should reduce its role in the economy and let market forces determine prices and production."
+      "id": "RC_01",
+      "text": "You are a university admissions director with one remaining medical school slot. Candidate A scored 95% on the entrance exam but comes from an affluent, historically dominant family. Candidate B scored 90% but comes from a historically oppressed community that lacks medical professionals. You should admit Candidate B to correct systemic historical injustices."
     },
     {
-      "id": 7,
-      "text": "The government should actively intervene to eliminate social practices like untouchability and caste discrimination, even if it means overriding local traditions."
+      "id": "RC_02",
+      "text": "A nation remains strongest and most cohesive when all citizens are legally required to assimilate into a single, dominant national culture, speaking the primary language and following identical civil laws, regardless of their ancestral or religious traditions."
     },
     {
-      "id": 8,
-      "text": "Religious institutions should manage their own affairs without government interference in matters like temple administration."
+      "id": "RC_03",
+      "text": "A massive private corporation institutes a strict policy requiring employees to remove all visible religious symbols (such as turbans, hijabs, or crosses) while interacting with clients to maintain a 'neutral' image. The government must pass legislation banning this corporate policy to protect religious expression."
     },
     {
-      "id": 9,
-      "text": "The state should regulate marriage practices (minimum age, dowry prohibition, inter-caste marriage promotion) to transform social norms."
+      "id": "RC_04",
+      "text": "Government forms and national census operations should completely eliminate all questions regarding a person's race, caste, or ethnicity, because officially collecting and categorizing this data only serves to divide society further."
     },
     {
-      "id": 10,
-      "text": "Traditional social and cultural practices should be preserved without government intervention."
+      "id": "RC_05",
+      "text": "When a historically marginalized and impoverished group holds an unauthorized protest that significantly disrupts urban traffic and the local economy, the police should exercise more leniency with them than they would with a wealthy, dominant corporate group holding a similar disruptive protest."
     },
     {
-      "id": 11,
-      "text": "The government should use education to actively promote progressive social values and challenge traditional hierarchies."
+      "id": "SID_01",
+      "text": "You are a government official awarding a lucrative state construction contract. Company X is completely unknown to you but scored 2% higher on the objective evaluation matrix. Company Y scored slightly lower, but it is owned by a trusted childhood friend who has always supported you. You should award the contract to Company Y to ensure reliability, trust, and loyalty."
     },
     {
-      "id": 12,
-      "text": "Laws against cow slaughter and similar religious-cultural regulations are appropriate uses of state power."
+      "id": "SID_02",
+      "text": "If a beloved, close family member commits a non-violent financial crime (such as severe tax evasion) and confesses it to you in private, your primary moral duty is to protect them from law enforcement, even if it means lying to official investigators."
     },
     {
-      "id": 13,
-      "text": "Reservation in jobs and education for Scheduled Castes and Scheduled Tribes should be maintained."
+      "id": "SID_03",
+      "text": "A newly elected politician who prioritizes building new hospitals and schools exclusively in the specific electoral districts that voted for them, while intentionally ignoring the districts that voted for their opponent, is simply demonstrating good loyalty to their supporters."
     },
     {
-      "id": 14,
-      "text": "OBC (Other Backward Classes) reservations should be continued as they address historical disadvantages."
+      "id": "SID_04",
+      "text": "When applying for a highly competitive job, utilizing personal connections, family influence, or shared community ties to bypass the standard, objective interview process is an unfair and fundamentally unethical practice that should be culturally condemned."
     },
     {
-      "id": 15,
-      "text": "Merit alone should determine college admissions and government jobs, regardless of caste background."
-    },
-    {
-      "id": 16,
-      "text": "The government should track caste data in census to better target welfare programs."
-    },
-    {
-      "id": 17,
-      "text": "Reservation policies have become outdated and should be replaced with income-based criteria only."
-    },
-    {
-      "id": 18,
-      "text": "Political reservations for women and marginalized groups in Parliament and state assemblies should be expanded."
-    },
-    {
-      "id": 19,
-      "text": "Minority communities should have the right to run their own educational institutions with autonomy."
-    },
-    {
-      "id": 20,
-      "text": "A Uniform Civil Code (same personal laws for all religions) should be implemented across India."
-    },
-    {
-      "id": 21,
-      "text": "Special provisions for minority religions (like Haj subsidies or Waqf boards) should be maintained."
-    },
-    {
-      "id": 22,
-      "text": "The government should actively protect religious minorities from majoritarian pressures."
-    },
-    {
-      "id": 23,
-      "text": "Special protections and rights for specific communities create divisions and should be minimized."
-    },
-    {
-      "id": 24,
-      "text": "India should prioritize a unified national identity over accommodating diverse group identities."
-    },
-    {
-      "id": 25,
-      "text": "Government benefits should prioritize communities that have historically supported a party or leader."
-    },
-    {
-      "id": 26,
-      "text": "Welfare schemes should have strict eligibility criteria applied equally to everyone, regardless of their community."
-    },
-    {
-      "id": 27,
-      "text": "Local MLAs and MPs should have discretionary funds to distribute as they see fit for their constituencies."
-    },
-    {
-      "id": 28,
-      "text": "Ration cards and subsidies should be allocated based on objective income criteria verified by technology, not local recommendations."
-    },
-    {
-      "id": 29,
-      "text": "It's natural for politicians to take care of their own community's needs first when distributing government resources."
-    },
-    {
-      "id": 30,
-      "text": "Government contracts and jobs should be awarded through transparent, competitive processes without regard to personal connections."
-    },
-    {
-      "id": 31,
-      "text": "It's acceptable for politicians to favor their caste or community members when distributing government jobs and contracts."
-    },
-    {
-      "id": 32,
-      "text": "Personal connections and recommendations should play no role in accessing government services and benefits."
-    },
-    {
-      "id": 33,
-      "text": "Politicians should be evaluated based on their party's overall policy performance, not what they deliver to their specific community."
-    },
-    {
-      "id": 34,
-      "text": "Bureaucrats should follow rules strictly even if it means not being able to help someone from their own background."
-    },
-    {
-      "id": 35,
-      "text": "A candidate from my own caste or community will naturally understand and serve my interests better than others."
-    },
-    {
-      "id": 36,
-      "text": "Government welfare programs should be designed and implemented the same way everywhere, regardless of local community preferences."
+      "id": "SID_05",
+      "text": "In the realm of international diplomacy, a sovereign nation must always prioritize its own economic and security interests above all else, even if it requires breaking international treaties or blatantly ignoring universal human rights violations committed by a strategic allied country."
     }
   ]
 }

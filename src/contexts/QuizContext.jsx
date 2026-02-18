@@ -101,22 +101,59 @@ function quizReducer(state, action) {
 // Storage key for localStorage
 const STORAGE_KEY = 'political_nakshatra_quiz_state';
 
+/**
+ * Detect and migrate old quiz state format
+ * Returns null if old format detected (triggers reset)
+ */
+function migrateOldQuizState() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (!saved) return null;
+
+  try {
+    const parsed = JSON.parse(saved);
+
+    // Detect old format by checking for:
+    // 1. Numeric question IDs (old used numbers, new uses strings like "ST_01")
+    // 2. Old coordinate range (values between -1 and +1)
+    const hasOldQuestionIds = Object.keys(parsed.responses || {})
+      .some(id => typeof id === 'number' || (!isNaN(id) && !id.includes('_')));
+
+    const hasOldCoordinates = parsed.results && (
+      (Math.abs(parsed.results.statism) <= 1 && Math.abs(parsed.results.statism) > 0) ||
+      (Math.abs(parsed.results.recognition) <= 1 && Math.abs(parsed.results.recognition) > 0) ||
+      (Math.abs(parsed.results.sid) <= 1 && Math.abs(parsed.results.sid) > 0)
+    );
+
+    if (hasOldQuestionIds || hasOldCoordinates) {
+      // Clear old state
+      localStorage.removeItem(STORAGE_KEY);
+      console.log('[Quiz Migration] Quiz framework updated. Previous progress has been cleared to accommodate new 15-question vignette format.');
+      return null;
+    }
+
+    return parsed;
+  } catch (error) {
+    console.error('Failed to parse saved quiz state:', error);
+    return null;
+  }
+}
+
 // Provider component
 export function QuizProvider({ children }) {
   const [state, dispatch] = useReducer(quizReducer, initialState);
 
-  // Load saved state from localStorage on mount
+  // Load saved state from localStorage on mount (with migration)
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
+    const migratedState = migrateOldQuizState();
+    if (migratedState) {
       try {
-        const parsedState = JSON.parse(saved);
-        dispatch({ type: ACTIONS.LOAD_SAVED_STATE, payload: parsedState });
+        dispatch({ type: ACTIONS.LOAD_SAVED_STATE, payload: migratedState });
       } catch (error) {
         console.error('Failed to load saved quiz state:', error);
+        dispatch({ type: ACTIONS.SET_START_TIME, payload: Date.now() });
       }
     } else {
-      // Set start time if not loaded from storage
+      // Set start time if no saved state or migration cleared old state
       dispatch({ type: ACTIONS.SET_START_TIME, payload: Date.now() });
     }
   }, []);

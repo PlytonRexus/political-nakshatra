@@ -1,4 +1,4 @@
-// Political Nakshatra - Indian Political Parties Positioning
+// Political Nakshatra - Indian Political Parties Positioning (New Framework: [-10, +10] coordinates)
 // Based on policy analysis and the three-axis framework
 
 export const parties = [
@@ -9,9 +9,9 @@ export const parties = [
     founded: 1980,
     color: '#FF9933', // Saffron
     position: {
-      statism: 0.4,      // Moderate-high statism (welfare + infrastructure)
-      recognition: -0.7, // Low recognition (UCC, anti-minority "appeasement")
-      sid: -0.3          // Moderate particularism (Hindu majority focus, but DBT)
+      statism: 4.0,
+      recognition: -7.0,
+      sid: -3.0
     },
     ideology: ['Hindu Nationalism', 'Economic Nationalism', 'Cultural Conservatism'],
     keyPolicies: [
@@ -31,9 +31,9 @@ export const parties = [
     founded: 1885,
     color: '#19AAED', // Sky blue
     position: {
-      statism: 0.5,      // High statism (traditional welfare state)
-      recognition: 0.6,  // High recognition (minority rights, reservations)
-      sid: -0.5          // Particularist (patronage networks)
+      statism: 5.0,
+      recognition: 6.0,
+      sid: -5.0
     },
     ideology: ['Social Democracy', 'Secularism', 'Welfare State'],
     keyPolicies: [
@@ -53,9 +53,9 @@ export const parties = [
     founded: 2012,
     color: '#0066CC', // Blue
     position: {
-      statism: 0.7,      // Very high statism (free utilities, education)
-      recognition: 0.3,  // Moderate recognition (supports reservations, less identity-focused)
-      sid: 0.4           // Moderate universalism (tech-based delivery)
+      statism: 7.0,
+      recognition: 3.0,
+      sid: 4.0
     },
     ideology: ['Populism', 'Welfare State', 'Anti-Corruption'],
     keyPolicies: [
@@ -75,9 +75,9 @@ export const parties = [
     founded: 1984,
     color: '#0000FF', // Blue
     position: {
-      statism: 0.3,      // Moderate statism (means to group advancement)
-      recognition: 0.9,  // Very high recognition (Dalit-centric)
-      sid: -0.8          // Highly particularist (explicit caste mobilization)
+      statism: 3.0,
+      recognition: 9.0,
+      sid: -8.0
     },
     ideology: ['Ambedkarite', 'Dalit Rights', 'Social Justice'],
     keyPolicies: [
@@ -97,9 +97,9 @@ export const parties = [
     founded: 1998,
     color: '#20C646', // Green
     position: {
-      statism: 0.6,      // High statism (extensive welfare)
-      recognition: 0.5,  // Moderate-high recognition (minority outreach)
-      sid: -0.6          // Particularist (patronage networks)
+      statism: 6.0,
+      recognition: 5.0,
+      sid: -6.0
     },
     ideology: ['Regional Populism', 'Welfare State', 'Minority Rights'],
     keyPolicies: [
@@ -119,9 +119,9 @@ export const parties = [
     founded: 1964,
     color: '#FF0000', // Red
     position: {
-      statism: 0.9,      // Very high statism (socialist ideology)
-      recognition: 0.4,  // Moderate recognition (class > identity)
-      sid: 0.2           // Slight universalist (class-based)
+      statism: 9.0,
+      recognition: 4.0,
+      sid: 2.0
     },
     ideology: ['Marxism-Leninism', 'Socialism', 'Class Politics'],
     keyPolicies: [
@@ -141,9 +141,9 @@ export const parties = [
     founded: 1992,
     color: '#FF2222', // Red
     position: {
-      statism: 0.5,      // Moderate-high statism (welfare for OBCs)
-      recognition: 0.7,  // High recognition (OBC, minority focus)
-      sid: -0.7          // Highly particularist (Yadav-Muslim coalition)
+      statism: 5.0,
+      recognition: 7.0,
+      sid: -7.0
     },
     ideology: ['Socialist', 'OBC Politics', 'Secularism'],
     keyPolicies: [
@@ -163,9 +163,9 @@ export const parties = [
     founded: 1949,
     color: '#FF0000', // Red and black
     position: {
-      statism: 0.7,      // High statism (Tamil Nadu welfare model)
-      recognition: 0.8,  // High recognition (Dravidian identity)
-      sid: -0.4          // Moderate particularist (effective delivery)
+      statism: 7.0,
+      recognition: 8.0,
+      sid: -4.0
     },
     ideology: ['Dravidian Nationalism', 'Social Justice', 'Anti-Hindi'],
     keyPolicies: [

@@ -1,29 +1,20 @@
-// Political Nakshatra - Scoring Algorithm
+// Political Nakshatra - Scoring Algorithm (Vignette-Based Framework)
 // Converts Likert scale responses to 3D coordinates
+// New framework: [-10, +10] coordinate system with RawScore - 15 formula
 
 import { questions } from '../data/questions';
-
-/**
- * Convert Likert scale value (1-5) to score value (-2 to +2)
- * @param {number} likertValue - User's response (1-5)
- * @returns {number} Score value (-2 to +2)
- */
-export function likertToScore(likertValue) {
-  return likertValue - 3;
-}
 
 /**
  * Calculate axis score from user responses
  * @param {Object} responses - User responses { questionId: likertValue }
  * @param {string} axis - Axis name ('statism', 'recognition', or 'sid')
- * @returns {number} Normalized coordinate between -1 and +1
+ * @returns {number} Normalized coordinate between -10 and +10
  */
 export function calculateAxisScore(responses, axis) {
   const axisQuestions = questions.filter(q => q.axis === axis);
 
   let rawScore = 0;
-  let minPossible = 0;
-  let maxPossible = 0;
+  let answeredCount = 0;
 
   axisQuestions.forEach(question => {
     const response = responses[question.id];
@@ -31,32 +22,29 @@ export function calculateAxisScore(responses, axis) {
     // Skip if question wasn't answered
     if (!response) return;
 
-    // Convert Likert (1-5) to score (-2 to +2)
-    let value = likertToScore(response);
-
-    // Handle reverse-scored questions
-    if (question.reverse) {
-      value = -value;
-    }
+    // Handle inverted questions: 1→5, 2→4, 3→3, 4→2, 5→1
+    const actualValue = question.reverse
+      ? (6 - response)
+      : response;
 
     // Apply weight and accumulate
-    rawScore += value * question.weight;
-    minPossible += -2 * question.weight;
-    maxPossible += 2 * question.weight;
+    rawScore += actualValue * question.weight;
+    answeredCount++;
   });
 
-  // Normalize to range [-1, +1]
-  const range = maxPossible - minPossible;
-  if (range === 0) return 0; // Avoid division by zero
+  // If no questions answered, return 0
+  if (answeredCount === 0) return 0;
 
-  const normalized = (rawScore - minPossible) / range;
-  return (normalized * 2) - 1;
+  // Normalize to [-10, +10] using formula: RawScore - 15
+  // For 5 questions: min=5, max=25, center=15
+  // 5-15=-10, 15-15=0, 25-15=+10
+  return rawScore - 15;
 }
 
 /**
  * Calculate all three axis scores from responses
  * @param {Object} responses - User responses { questionId: likertValue }
- * @returns {Object} Coordinates { statism, recognition, sid } each between -1 and +1
+ * @returns {Object} Coordinates { statism, recognition, sid } each between -10 and +10
  */
 export function calculateResults(responses) {
   return {
@@ -68,13 +56,13 @@ export function calculateResults(responses) {
 
 /**
  * Get descriptive label for position on an axis
- * @param {number} coordinate - Position between -1 and +1
+ * @param {number} coordinate - Position between -10 and +10
  * @param {string} axis - Axis name
  * @returns {string} Descriptive label
  */
 export function getAxisLabel(coordinate, axis) {
   const absValue = Math.abs(coordinate);
-  const intensity = absValue > 0.6 ? 'Very ' : absValue > 0.3 ? 'Moderately ' : 'Slightly ';
+  const intensity = absValue > 6 ? 'Very ' : absValue > 3 ? 'Moderately ' : 'Slightly ';
 
   const labels = {
     statism: {
@@ -94,13 +82,13 @@ export function getAxisLabel(coordinate, axis) {
     },
   };
 
-  if (absValue < 0.15) return labels[axis].neutral;
+  if (absValue < 1.5) return labels[axis].neutral;
   return coordinate > 0 ? labels[axis].positive : labels[axis].negative;
 }
 
 /**
  * Get detailed description for position on an axis
- * @param {number} coordinate - Position between -1 and +1
+ * @param {number} coordinate - Position between -10 and +10
  * @param {string} axis - Axis name
  * @returns {string} Detailed description
  */
@@ -123,7 +111,7 @@ export function getAxisDescription(coordinate, axis) {
     },
   };
 
-  if (Math.abs(coordinate) < 0.15) return descriptions[axis].neutral;
+  if (Math.abs(coordinate) < 1.5) return descriptions[axis].neutral;
   return coordinate > 0 ? descriptions[axis].high : descriptions[axis].low;
 }
 
@@ -187,7 +175,7 @@ export function findClosestParty(userPosition, parties) {
  * @returns {number} Match score (0-100%)
  */
 export function calculateMatchScore(userPosition, targetPosition) {
-  const maxDistance = Math.sqrt(3 * (2**2)); // max possible distance in [-1,+1]³ space
+  const maxDistance = Math.sqrt(3 * (20**2)); // max possible distance in [-10,+10]³ space ≈ 34.64
   const distance = calculateDistance(userPosition, targetPosition);
   return Math.round((1 - distance / maxDistance) * 100);
 }
@@ -201,11 +189,11 @@ export function calculateMatchScore(userPosition, targetPosition) {
  */
 export function getAxisAlignment(userVal, targetVal, t) {
   const diff = Math.abs(userVal - targetVal);
-  const matchPercent = Math.round((1 - diff / 2) * 100);
+  const matchPercent = Math.round((1 - diff / 20) * 100);
 
-  if (diff < 0.1) return { label: t('scoring:alignment.verySimilar'), match: matchPercent, symbol: '✓' };
-  if (diff < 0.3) return { label: t('scoring:alignment.similar'), match: matchPercent, symbol: '✓' };
-  if (diff < 0.5) return { label: t('scoring:alignment.somewhatDifferent'), match: matchPercent, symbol: '~' };
+  if (diff < 1) return { label: t('scoring:alignment.verySimilar'), match: matchPercent, symbol: '✓' };
+  if (diff < 3) return { label: t('scoring:alignment.similar'), match: matchPercent, symbol: '✓' };
+  if (diff < 5) return { label: t('scoring:alignment.somewhatDifferent'), match: matchPercent, symbol: '~' };
   return { label: t('scoring:alignment.different'), match: matchPercent, symbol: '✗' };
 }
 
@@ -239,16 +227,16 @@ export function getPoliticalLean(position, t) {
   const { statism, recognition, sid } = position;
 
   // Determine primary characteristics
-  const statismLabel = statism > 0.3 ? t('scoring:lean.statist') : statism < -0.3 ? t('scoring:lean.marketOriented') : t('scoring:lean.centrist');
-  const recognitionLabel = recognition > 0.3 ? t('scoring:lean.pluralist') : recognition < -0.3 ? t('scoring:lean.majoritarian') : t('scoring:lean.moderate');
-  const sidLabel = sid > 0.3 ? t('scoring:lean.universalist') : sid < -0.3 ? t('scoring:lean.particularist') : t('scoring:lean.balanced');
+  const statismLabel = statism > 3 ? t('scoring:lean.statist') : statism < -3 ? t('scoring:lean.marketOriented') : t('scoring:lean.centrist');
+  const recognitionLabel = recognition > 3 ? t('scoring:lean.pluralist') : recognition < -3 ? t('scoring:lean.majoritarian') : t('scoring:lean.moderate');
+  const sidLabel = sid > 3 ? t('scoring:lean.universalist') : sid < -3 ? t('scoring:lean.particularist') : t('scoring:lean.balanced');
 
   // Combine for overall lean
-  if (Math.abs(statism) > 0.3 && Math.abs(recognition) > 0.3) {
+  if (Math.abs(statism) > 3 && Math.abs(recognition) > 3) {
     return `${statismLabel} ${recognitionLabel}`;
-  } else if (Math.abs(statism) > 0.3) {
+  } else if (Math.abs(statism) > 3) {
     return statismLabel;
-  } else if (Math.abs(recognition) > 0.3) {
+  } else if (Math.abs(recognition) > 3) {
     return recognitionLabel;
   } else {
     return t('scoring:lean.centristModerate');
@@ -263,9 +251,9 @@ export function getPoliticalLean(position, t) {
  * @returns {string} Human-readable interpretation
  */
 export function interpretDistance(distance, entityType = 'party', t) {
-  if (distance < 0.3) return t('scoring:distance.verySimilar');
-  if (distance < 0.6) return t('scoring:distance.moderate');
-  if (distance < 1.0) return t('scoring:distance.significant');
+  if (distance < 3) return t('scoring:distance.verySimilar');
+  if (distance < 6) return t('scoring:distance.moderate');
+  if (distance < 10) return t('scoring:distance.significant');
   return t('scoring:distance.veryDifferent');
 }
 
@@ -284,7 +272,7 @@ export function interpretMatchPercentage(matchPercent, t) {
 
 /**
  * Get concrete policy examples based on axis position
- * @param {number} coordinate - Position between -1 and +1
+ * @param {number} coordinate - Position between -10 and +10
  * @param {string} axis - Axis name ('statism', 'recognition', or 'sid')
  * @param {Function} t - Translation function
  * @returns {Array<string>} Array of policy examples
@@ -294,14 +282,14 @@ export function getAxisExamples(coordinate, axis, t) {
   let level;
   let sliceCount = 3;
 
-  if (coordinate > 0.6) {
+  if (coordinate > 6) {
     level = 'veryHigh';
-  } else if (coordinate > 0.3) {
+  } else if (coordinate > 3) {
     level = 'high';
-  } else if (Math.abs(coordinate) <= 0.3) {
+  } else if (Math.abs(coordinate) <= 3) {
     level = 'neutral';
     sliceCount = 3; // Neutral has 3 items total
-  } else if (coordinate < -0.6) {
+  } else if (coordinate < -6) {
     level = 'veryLow';
   } else {
     level = 'low';
@@ -314,21 +302,21 @@ export function getAxisExamples(coordinate, axis, t) {
 
 /**
  * Get comparative description between user and target positions
- * @param {number} userValue - User's value on axis (-1 to +1)
- * @param {number} targetValue - Target's value on axis (-1 to +1)
+ * @param {number} userValue - User's value on axis (-10 to +10)
+ * @param {number} targetValue - Target's value on axis (-10 to +10)
  * @param {string} axis - Axis name ('statism', 'recognition', or 'sid')
  * @param {Function} t - Translation function
  * @returns {string} Comparative description
  */
 export function getComparativeDescription(userValue, targetValue, axis, t) {
   const diff = userValue - targetValue;
-  const absvalue = Math.abs(diff);
+  const absValue = Math.abs(diff);
 
   const more = t(`scoring:comparison.${axis}.more`);
   const less = t(`scoring:comparison.${axis}.less`);
   const similar = t(`scoring:comparison.${axis}.similar`);
 
-  if (absvalue < 0.15) {
+  if (absValue < 1.5) {
     return t(`scoring:comparison.${axis}.similar_full`, { similar });
   }
 

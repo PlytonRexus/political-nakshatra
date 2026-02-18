@@ -25,7 +25,7 @@ function UserStar({ position }) {
   return (
     <group position={[position.statism, position.recognition, position.sid]}>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[0.12, 32, 32]} />
+        <sphereGeometry args={[1.2, 32, 32]} />
         <meshStandardMaterial
           color="#FFD700"
           emissive="#FFD700"
@@ -34,10 +34,10 @@ function UserStar({ position }) {
           roughness={0.2}
         />
       </mesh>
-      <pointLight color="#FFD700" intensity={1.5} distance={2} decay={2} />
+      <pointLight color="#FFD700" intensity={1.5} distance={20} decay={2} />
 
       {/* Label */}
-      <Html distanceFactor={3}>
+      <Html distanceFactor={30}>
         <div className="bg-gray-900/90 px-3 py-1 rounded text-white text-sm font-semibold whitespace-nowrap pointer-events-none">
           You
         </div>
@@ -64,7 +64,7 @@ function PartyStar({ party, userPosition }) {
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
       >
-        <sphereGeometry args={[0.06, 16, 16]} />
+        <sphereGeometry args={[0.6, 16, 16]} />
         <meshStandardMaterial
           color={party.color}
           emissive={party.color}
@@ -79,7 +79,7 @@ function PartyStar({ party, userPosition }) {
             [party.position.statism, party.position.recognition, party.position.sid],
             [userPosition.statism, userPosition.recognition, userPosition.sid]
           ]}
-          color={distance < 0.5 ? '#00FF00' : distance < 1.0 ? '#FFFF00' : '#FF6600'}
+          color={distance < 5 ? '#00FF00' : distance < 10 ? '#FFFF00' : '#FF6600'}
           lineWidth={2}
           dashed
           dashScale={20}
@@ -89,7 +89,7 @@ function PartyStar({ party, userPosition }) {
       )}
 
       {hovered && (
-        <Html distanceFactor={3}>
+        <Html distanceFactor={30}>
           <div className="bg-gray-900/95 px-3 py-2 rounded text-white text-xs font-semibold whitespace-nowrap pointer-events-none border border-gray-700">
             <div className="font-bold">{party.abbreviation}</div>
             <div className="text-gray-400 text-xs">{party.name}</div>
@@ -121,7 +121,7 @@ function LeaderStar({ leader, userPosition }) {
         onPointerOut={() => setHovered(false)}
       >
         {/* Octahedron geometry for diamond shape */}
-        <octahedronGeometry args={[0.05, 0]} />
+        <octahedronGeometry args={[0.5, 0]} />
         <meshStandardMaterial
           color={leader.color}
           emissive={leader.color}
@@ -138,7 +138,7 @@ function LeaderStar({ leader, userPosition }) {
             [leader.position.statism, leader.position.recognition, leader.position.sid],
             [userPosition.statism, userPosition.recognition, userPosition.sid]
           ]}
-          color={distance < 0.5 ? '#00FF00' : distance < 1.0 ? '#FFFF00' : '#FF6600'}
+          color={distance < 5 ? '#00FF00' : distance < 10 ? '#FFFF00' : '#FF6600'}
           lineWidth={2}
           dashed
           dashScale={20}
@@ -171,7 +171,7 @@ function PoliticalCompassPlane({ userPosition, visible }) {
     <group>
       {/* Base plane with Political Compass grid */}
       <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[3, 3]} />
+        <planeGeometry args={[30, 30]} />
         <meshBasicMaterial
           color="#1a1a2e"
           transparent
@@ -183,34 +183,34 @@ function PoliticalCompassPlane({ userPosition, visible }) {
       {/* Grid lines for quadrants */}
       {/* Vertical line (statism = 0) */}
       <Line
-        points={[[0, -1.5, 0], [0, 1.5, 0]]}
+        points={[[0, -15, 0], [0, 15, 0]]}
         color="#666666"
         lineWidth={2}
       />
       {/* Horizontal line (recognition = 0) */}
       <Line
-        points={[[-1.5, 0, 0], [1.5, 0, 0]]}
+        points={[[-15, 0, 0], [15, 0, 0]]}
         color="#666666"
         lineWidth={2}
       />
 
       {/* Quadrant Labels */}
-      <Text position={[-0.8, 0.8, 0.01]} fontSize={0.12} color="#4FC3F7">
+      <Text position={[-8, 8, 0.01]} fontSize={1.2} color="#4FC3F7">
         Auth Left
       </Text>
-      <Text position={[0.8, 0.8, 0.01]} fontSize={0.12} color="#81C784">
+      <Text position={[8, 8, 0.01]} fontSize={1.2} color="#81C784">
         Auth Right
       </Text>
-      <Text position={[-0.8, -0.8, 0.01]} fontSize={0.12} color="#E57373">
+      <Text position={[-8, -8, 0.01]} fontSize={1.2} color="#E57373">
         Lib Left
       </Text>
-      <Text position={[0.8, -0.8, 0.01]} fontSize={0.12} color="#FFB74D">
+      <Text position={[8, -8, 0.01]} fontSize={1.2} color="#FFB74D">
         Lib Right
       </Text>
 
       {/* User projection on the 2D plane */}
       <mesh position={[userPosition.statism, userPosition.recognition, 0.02]}>
-        <circleGeometry args={[0.08, 32]} />
+        <circleGeometry args={[0.8, 32]} />
         <meshBasicMaterial color="#FFD700" opacity={0.8} transparent />
       </mesh>
 
@@ -229,21 +229,21 @@ function PoliticalCompassPlane({ userPosition, visible }) {
       />
 
       {/* Axis labels on the plane */}
-      <Text position={[1.7, 0, 0.01]} fontSize={0.1} color="#4FC3F7">
+      <Text position={[17, 0, 0.01]} fontSize={1.0} color="#4FC3F7">
         Economic Right
       </Text>
-      <Text position={[-1.7, 0, 0.01]} fontSize={0.1} color="#4FC3F7">
+      <Text position={[-17, 0, 0.01]} fontSize={1.0} color="#4FC3F7">
         Economic Left
       </Text>
-      <Text position={[0, 1.7, 0.01]} fontSize={0.1} color="#81C784">
+      <Text position={[0, 17, 0.01]} fontSize={1.0} color="#81C784">
         Authoritarian
       </Text>
-      <Text position={[0, -1.7, 0.01]} fontSize={0.1} color="#81C784">
+      <Text position={[0, -17, 0.01]} fontSize={1.0} color="#81C784">
         Libertarian
       </Text>
 
       {/* Note label */}
-      <Html position={[0, -1.9, 0]}>
+      <Html position={[0, -19, 0]}>
         <div className="bg-gray-900/90 px-2 py-1 rounded text-white text-xs max-w-xs text-center">
           Traditional 2D Political Compass (SID dimension not shown)
         </div>
@@ -256,7 +256,7 @@ function PoliticalCompassPlane({ userPosition, visible }) {
 function ReferencePlane({ position, color, opacity = 0.03, rotation = [Math.PI / 2, 0, 0] }) {
   return (
     <mesh position={position} rotation={rotation}>
-      <planeGeometry args={[3, 3]} />
+      <planeGeometry args={[30, 30]} />
       <meshBasicMaterial color={color} transparent opacity={opacity} side={DoubleSide} />
     </mesh>
   );
@@ -265,7 +265,7 @@ function ReferencePlane({ position, color, opacity = 0.03, rotation = [Math.PI /
 // Axis Direction Label Component - Shows direction meaning at axis endpoints
 function AxisDirectionLabel({ position, text, color, bg }) {
   return (
-    <Html position={position} distanceFactor={5}>
+    <Html position={position} distanceFactor={50}>
       <div
         className="px-2 py-1 rounded text-xs font-semibold whitespace-nowrap pointer-events-none border"
         style={{
@@ -303,18 +303,18 @@ function Axis({ start, end, color, label, labelPosition }) {
       {/* Axis Label */}
       <Text
         position={labelPosition}
-        fontSize={0.15}
+        fontSize={1.5}
         color={color}
         anchorX="center"
         anchorY="middle"
-        outlineWidth={0.02}
+        outlineWidth={0.2}
         outlineColor="#000000"
       >
         {label}
       </Text>
 
-      {/* Tick marks at -1, 0, 1 */}
-      {[-1, 0, 1].map((tick) => {
+      {/* Tick marks at -10, 0, 10 */}
+      {[-10, 0, 10].map((tick) => {
         const dir = [
           end[0] - start[0],
           end[1] - start[1],
@@ -323,14 +323,14 @@ function Axis({ start, end, color, label, labelPosition }) {
         const len = Math.sqrt(dir[0]**2 + dir[1]**2 + dir[2]**2);
         const norm = dir.map(d => d / len);
         const pos = [
-          start[0] + norm[0] * (tick + 1),
-          start[1] + norm[1] * (tick + 1),
-          start[2] + norm[2] * (tick + 1)
+          start[0] + norm[0] * (tick + 10) / 20 * len,
+          start[1] + norm[1] * (tick + 10) / 20 * len,
+          start[2] + norm[2] * (tick + 10) / 20 * len
         ];
 
         return (
           <mesh key={tick} position={pos}>
-            <sphereGeometry args={[0.03, 8, 8]} />
+            <sphereGeometry args={[0.3, 8, 8]} />
             <meshBasicMaterial color={color} opacity={0.5} transparent />
           </mesh>
         );
@@ -342,7 +342,7 @@ function Axis({ start, end, color, label, labelPosition }) {
 // Grid Helper - subtle grid at origin
 function GridPlane() {
   return (
-    <gridHelper args={[4, 8, '#333333', '#222222']} rotation={[0, 0, 0]} />
+    <gridHelper args={[40, 8, '#333333', '#222222']} rotation={[0, 0, 0]} />
   );
 }
 
@@ -414,7 +414,7 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
   return (
     <div className="w-full h-full relative">
       <Canvas
-        camera={{ position: [3.5, 3.5, 3.5], fov: 50 }}
+        camera={{ position: [35, 35, 35], fov: 50 }}
         style={{ background: '#0a0a1a' }}
       >
         {/* Background color */}
@@ -449,25 +449,25 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
 
         {/* Three Axes */}
         <Axis
-          start={[-1.5, 0, 0]}
-          end={[1.5, 0, 0]}
+          start={[-15, 0, 0]}
+          end={[15, 0, 0]}
           color="#4FC3F7"
           label="Statism"
-          labelPosition={[1.8, 0, 0]}
+          labelPosition={[18, 0, 0]}
         />
         <Axis
-          start={[0, -1.5, 0]}
-          end={[0, 1.5, 0]}
+          start={[0, -15, 0]}
+          end={[0, 15, 0]}
           color="#81C784"
           label="Recognition"
-          labelPosition={[0, 1.8, 0]}
+          labelPosition={[0, 18, 0]}
         />
         <Axis
-          start={[0, 0, -1.5]}
-          end={[0, 0, 1.5]}
+          start={[0, 0, -15]}
+          end={[0, 0, 15]}
           color="#BA68C8"
           label="SID"
-          labelPosition={[0, 0, 1.8]}
+          labelPosition={[0, 0, 18]}
         />
 
         {/* Origin point */}
@@ -490,14 +490,14 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
         ))}
 
         {/* Axis Direction Labels */}
-        <AxisDirectionLabel position={[1.5, 0, 0]} text="More State Control" color="#4FC3F7" bg="rgba(79, 195, 247, 0.2)" />
-        <AxisDirectionLabel position={[-1.5, 0, 0]} text="Less State Control" color="#4FC3F7" bg="rgba(79, 195, 247, 0.2)" />
+        <AxisDirectionLabel position={[15, 0, 0]} text="More State Control" color="#4FC3F7" bg="rgba(79, 195, 247, 0.2)" />
+        <AxisDirectionLabel position={[-15, 0, 0]} text="Less State Control" color="#4FC3F7" bg="rgba(79, 195, 247, 0.2)" />
 
-        <AxisDirectionLabel position={[0, 1.5, 0]} text="More Group Rights" color="#81C784" bg="rgba(129, 199, 132, 0.2)" />
-        <AxisDirectionLabel position={[0, -1.5, 0]} text="Less Group Rights" color="#81C784" bg="rgba(129, 199, 132, 0.2)" />
+        <AxisDirectionLabel position={[0, 15, 0]} text="More Group Rights" color="#81C784" bg="rgba(129, 199, 132, 0.2)" />
+        <AxisDirectionLabel position={[0, -15, 0]} text="Less Group Rights" color="#81C784" bg="rgba(129, 199, 132, 0.2)" />
 
-        <AxisDirectionLabel position={[0, 0, 1.5]} text="Universalist" color="#BA68C8" bg="rgba(186, 104, 200, 0.2)" />
-        <AxisDirectionLabel position={[0, 0, -1.5]} text="Particularist" color="#BA68C8" bg="rgba(186, 104, 200, 0.2)" />
+        <AxisDirectionLabel position={[0, 0, 15]} text="Universalist" color="#BA68C8" bg="rgba(186, 104, 200, 0.2)" />
+        <AxisDirectionLabel position={[0, 0, -15]} text="Particularist" color="#BA68C8" bg="rgba(186, 104, 200, 0.2)" />
 
         {/* Controls */}
         <OrbitControls
@@ -505,8 +505,8 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
           dampingFactor={0.05}
           rotateSpeed={0.5}
           zoomSpeed={0.8}
-          minDistance={2}
-          maxDistance={8}
+          minDistance={20}
+          maxDistance={80}
           autoRotate
           autoRotateSpeed={0.5}
         />

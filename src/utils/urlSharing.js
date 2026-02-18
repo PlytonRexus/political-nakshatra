@@ -20,8 +20,8 @@ export function validateResults(results) {
     const val = results[key];
     return typeof val === 'number'
       && !isNaN(val)
-      && val >= -1
-      && val <= 1;
+      && val >= -10
+      && val <= 10;
   });
 }
 
