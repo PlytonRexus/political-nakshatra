@@ -5,6 +5,7 @@ import { OrbitControls, Stars, Text, Html, Line } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { DoubleSide } from 'three';
+import { useTranslation } from 'react-i18next';
 import { parties } from '../../data/parties';
 import { leaders } from '../../data/leaders';
 import { interpretDistance } from '../../utils/scoring';
@@ -47,7 +48,7 @@ function UserStar({ position }) {
 }
 
 // Party Star Component - Smaller colored stars for parties
-function PartyStar({ party, userPosition }) {
+function PartyStar({ party, userPosition, t }) {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
 
@@ -94,7 +95,7 @@ function PartyStar({ party, userPosition }) {
             <div className="font-bold">{party.abbreviation}</div>
             <div className="text-gray-400 text-xs">{party.name}</div>
             <div className="text-gray-500 text-xs mt-1">Distance: {distance.toFixed(3)}</div>
-            <div className="text-gray-400 text-xs italic">{interpretDistance(distance, 'party')}</div>
+            <div className="text-gray-400 text-xs italic">{interpretDistance(distance, 'party', t)}</div>
           </div>
         </Html>
       )}
@@ -103,7 +104,7 @@ function PartyStar({ party, userPosition }) {
 }
 
 // Leader Star Component - Octahedron (diamond) shaped markers for individual leaders
-function LeaderStar({ leader, userPosition }) {
+function LeaderStar({ leader, userPosition, t }) {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
 
@@ -155,7 +156,7 @@ function LeaderStar({ leader, userPosition }) {
             <div className="text-gray-500 text-xs mt-1">
               {parties.find(p => p.id === leader.partyId)?.abbreviation || leader.partyId.toUpperCase()} • Distance: {distance.toFixed(3)}
             </div>
-            <div className="text-gray-400 text-xs italic">{interpretDistance(distance, 'leader')}</div>
+            <div className="text-gray-400 text-xs italic">{interpretDistance(distance, 'leader', t)}</div>
           </div>
         </Html>
       )}
@@ -409,6 +410,7 @@ function OrientationGuide({ isOpen, toggle }) {
 
 // Main Compass3D Component
 export default function Compass3D({ userPosition, showParties = false, showLeaders = false, showCompass = false }) {
+  const { t } = useTranslation('scoring');
   const [guideOpen, setGuideOpen] = useState(false);
 
   return (
@@ -481,12 +483,12 @@ export default function Compass3D({ userPosition, showParties = false, showLeade
 
         {/* Party positions (if enabled) */}
         {showParties && parties.map((party) => (
-          <PartyStar key={party.id} party={party} userPosition={userPosition} />
+          <PartyStar key={party.id} party={party} userPosition={userPosition} t={t} />
         ))}
 
         {/* Leader positions (if enabled) */}
         {showLeaders && leaders.map((leader) => (
-          <LeaderStar key={leader.id} leader={leader} userPosition={userPosition} />
+          <LeaderStar key={leader.id} leader={leader} userPosition={userPosition} t={t} />
         ))}
 
         {/* Axis Direction Labels */}
