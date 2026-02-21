@@ -2,6 +2,20 @@
 
 A 3D political compass specifically designed for Indian political realities. Find your position in India's political constellation.
 
+## ⚠️ Translation Status
+
+**Marathi translations are AI-generated and for testing purposes only.**
+
+The 15 quiz vignettes in Marathi (`src/i18n/locales/mr/questions.json`) have been translated using AI and **require native Marathi speaker review** before production deployment.
+
+**Known limitations:**
+- May contain grammatical errors or awkward phrasing
+- Political terminology may not be optimal
+- Cultural nuances may be missed
+- Scenario phrasing may feel unnatural
+
+**Contributing**: If you're a native Marathi speaker with political knowledge, we'd welcome your review! See [TRANSLATION_REVIEW.md](TRANSLATION_REVIEW.md) for the review checklist.
+
 ## 🌟 About
 
 Political Nakshatra addresses the fundamental limitations of the traditional Western political compass (Left-Right economic, Authoritarian-Libertarian social) when applied to Indian politics. Instead, it uses a three-dimensional framework based on academic research on multi-ethnic, post-colonial democracies.
@@ -25,10 +39,11 @@ Political Nakshatra addresses the fundamental limitations of the traditional Wes
 
 ## 🚀 Features
 
-- **36 carefully designed questions** covering all three axes
+- **15 situational vignettes** - scenario-based questions covering all three axes
 - **Interactive 3D visualization** with constellation theme
-- **Party comparison** - see your position relative to major Indian parties
+- **Comprehensive comparison** - see your position relative to 16 Indian leaders and 8 global leaders
 - **Privacy-focused** - all data stays in your browser
+- **Bilingual** - English and Marathi (AI-translated, needs review)
 - **Mobile-friendly** responsive design
 - **GitHub Pages** deployment ready
 
@@ -81,21 +96,30 @@ political-nakshatra/
 
 ## 📊 Question Design
 
-The quiz includes 36 questions (12 per axis):
+The quiz uses a **vignette-based framework** with 15 situational scenarios (5 per axis):
 
-- **Statism**: Economic statism (6) + Social statism (6)
-- **Recognition**: Affirmative action (6) + Minority rights (6)
-- **SID**: Distribution mechanisms (6) + Governance philosophy (6)
+- **Statism (राज्यवाद)**: Government bailouts, price controls, public utilities, land redistribution, social safety nets
+- **Recognition (मान्यता)**: Affirmative action, cultural assimilation, religious expression, identity data, protest policing
+- **SID (संरचनात्मक प्रोत्साहन वितरण)**: Contract awarding, family loyalty, patronage politics, networking ethics, national interest
 
-Questions use a 5-point Likert scale (Strongly Disagree to Strongly Agree) with some reverse-scored for balance.
+Each vignette presents a realistic political scenario. Users respond on a 5-point Likert scale (Strongly Disagree to Strongly Agree). 4 questions are reverse-scored for balance (ST_05, RC_02, RC_04, SID_04).
 
-## 🎨 Party Positions
+**Coordinate System**: Results are plotted on a [-10, +10] scale for each axis, providing granular positioning.
 
-The app includes estimated positions for 8 major Indian political parties:
+## 🎨 Political Entity Positions
 
+The app includes estimated positions for:
+
+**16 Indian Political Leaders:**
+- Narendra Modi, Rahul Gandhi, Arvind Kejriwal, Mamata Banerjee, M.K. Stalin, Akhilesh Yadav, Mayawati, Amit Shah, Rajnath Singh, Nirmala Sitharaman, Mulayam Singh Yadav, M. Karunanidhi, Nitish Kumar, Yogi Adityanath, N. Chandrababu Naidu, Sharad Pawar
+
+**8 Global Leaders (for comparison):**
+- Keir Starmer (UK Labour), Rishi Sunak (UK Conservative), Justin Trudeau (Canada Liberal), Pierre Poilievre (Canada Conservative), Donald Trump (US Republican), Viktor Orbán (Hungary Fidesz), Lee Kuan Yew (Singapore PAP), Xi Jinping (China CCP)
+
+**8 Indian Political Parties:**
 - BJP, Congress, AAP, BSP, TMC, CPI(M), SP, DMK
 
-Party positions are based on policy analysis, electoral strategies, and governance records. These are academic assessments, not official party positions.
+All positions are based on policy analysis, electoral strategies, and governance records. These are academic assessments, not official positions.
 
 ## 🔒 Privacy
 
@@ -134,13 +158,15 @@ export default defineConfig({
 
 ## 🤝 Contributing
 
-Contributions are welcome! Areas for improvement:
+Contributions are welcome! Priority areas:
 
-- Additional questions for better calibration
-- More political parties
-- Translation to Indian languages
+- **URGENT**: Native Marathi speaker review of AI-generated translations (see [TRANSLATION_REVIEW.md](TRANSLATION_REVIEW.md))
+- Additional vignettes for better calibration
+- More political leaders (Indian and global)
+- Translations to other Indian languages (Hindi, Tamil, Telugu, Bengali)
 - Improved 3D visualization
-- Party position refinements
+- Leader position refinements based on new vignettes
+- User testing and feedback
 
 ## 📝 License
 

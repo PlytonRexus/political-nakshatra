@@ -1,48 +1,47 @@
 {
   "ST_01": {
-    "text": "A major national airline, employing tens of thousands of citizens, is on the verge of total bankruptcy due to severe financial mismanagement. The government must use taxpayer funds to bail out the company to save jobs and protect communities, rather than letting the free market dictate its collapse."
+    "text": "एक प्रमुख राष्ट्रीय विमान सेवा कंपनी, जी हजारो नागरिकांना रोजगार देते, गंभीर आर्थिक गैरव्यवस्थापनामुळे संपूर्ण दिवाळखोरीच्या उंबरठ्यावर आहे. रोजगार वाचवण्यासाठी आणि समुदायांचे संरक्षण करण्यासाठी सरकारने करदात्यांचे पैसे वापरून कंपनीला आर्थिक मदत करणे आवश्यक आहे, मुक्त बाजार पेठेला त्याचा नाश ठरवू न देता."
   },
   "ST_02": {
-    "text": "In a rapidly growing city experiencing severe inflation, the government is entirely justified in imposing strict, non-negotiable price controls on essential groceries and residential rent, even if this policy forces private businesses and landlords to operate at a significant financial loss."
+    "text": "तीव्र महागाईचा सामना करणाऱ्या वेगाने वाढणाऱ्या शहरात, आवश्यक किराणा मालावर आणि निवासी भाड्यावर सरकारने कठोर, न बदलता येणारे किंमत नियंत्रण लादणे पूर्णपणे न्याय्य आहे, जरी या धोरणामुळे खाजगी व्यवसाय आणि घरमालकांना मोठ्या आर्थिक तोट्यात काम करावे लागले तरीही."
   },
   "ST_03": {
-    "text": "A community is suffering from a prolonged water shortage. It is morally and administratively superior for the government to provide every household with a basic, free water allowance funded by heavy taxation, rather than allowing private utility companies to sell water at market prices to encourage conservation."
+    "text": "एक समुदाय दीर्घकाळापासून पाण्याच्या टंचाईने ग्रस्त आहे. प्रत्येक घरास भारी कराद्वारे वित्तपुरवठा केलेला मूलभूत, मोफत पाणी पुरवठा सरकारने करणे हे नैतिक आणि प्रशासकीयदृष्ट्या श्रेष्ठ आहे, त्याऐवजी खाजगी उपयोगिता कंपन्यांना बाजार भावाने पाणी विकू देण्यापेक्षा जे जतन करण्यास प्रोत्साहित करेल."
   },
   "ST_04": {
-    "text": "To effectively eliminate deeply entrenched historical inequalities, the state should possess the legal authority to forcibly acquire excess agricultural land and corporate assets from the ultra-wealthy and directly redistribute them to landless citizens."
+    "text": "खोलवर रुजलेल्या ऐतिहासिक असमानता प्रभावीपणे दूर करण्यासाठी, राज्याला अति श्रीमंतांकडून जादा शेतजमीन आणि कॉर्पोरेट मालमत्ता बळजबरीने संपादन करण्याचा आणि भूमिहीन नागरिकांना त्यांचे थेट पुनर्वितरण करण्याचा कायदेशीर अधिकार असावा."
   },
   "ST_05": {
-    "text": "If a citizen makes consistently poor financial and health choices throughout their life, the ultimate burden of their medical and retirement care should fall primarily on their own family and personal savings, not on a taxpayer-funded government safety net."
+    "text": "जर एखादा नागरिक आपल्या आयुष्यभर सातत्याने गरीब आर्थिक आणि आरोग्य निवडी करतो, तर त्यांच्या वैद्यकीय आणि सेवानिवृत्तीच्या काळजीचा अंतिम भार प्रामुख्याने त्यांच्या स्वतःच्या कुटुंबावर आणि वैयक्तिक बचतीवर पडला पाहिजे, करदात्यांद्वारे वित्तपुरवठा केलेल्या सरकारी सुरक्षा जाळ्यावर नाही."
   },
   "RC_01": {
-    "text": "You are a university admissions director with one remaining medical school slot. Candidate A scored 95% on the entrance exam but comes from an affluent, historically dominant family. Candidate B scored 90% but comes from a historically oppressed community that lacks medical professionals. You should admit Candidate B to correct systemic historical injustices."
+    "text": "तुम्ही विद्यापीठाचे प्रवेश संचालक आहात आणि वैद्यकीय महाविद्यालयासाठी एकच जागा शिल्लक आहे. उमेदवार अ ने प्रवेश परीक्षेत ९५% गुण मिळवले परंतु तो एका संपन्न, ऐतिहासिकदृष्ट्या प्रभावशाली कुटुंबातून आहे. उमेदवार ब ने ९०% गुण मिळवले परंतु तो ऐतिहासिकदृष्ट्या दडपलेल्या समुदायातून आहे ज्यामध्ये वैद्यकीय व्यावसायिकांचा अभाव आहे. तुम्ही उमेदवार ब ला प्रवेश द्यावा जेणेकरून प्रणालीगत ऐतिहासिक अन्याय दुरुस्त करता येईल."
   },
   "RC_02": {
-    "text": "A nation remains strongest and most cohesive when all citizens are legally required to assimilate into a single, dominant national culture, speaking the primary language and following identical civil laws, regardless of their ancestral or religious traditions."
+    "text": "जेव्हा सर्व नागरिकांना त्यांच्या वंशज किंवा धार्मिक परंपरांकडे दुर्लक्ष करून एकाच, प्रभावी राष्ट्रीय संस्कृतीत विलीन होण्यास, प्राथमिक भाषा बोलण्यास आणि समान नागरी कायद्यांचे पालन करण्यास कायदेशीररित्या भाग पाडले जाते तेव्हा एक राष्ट्र सर्वात मजबूत आणि सर्वात एकसंध राहते."
   },
   "RC_03": {
-    "text": "A massive private corporation institutes a strict policy requiring employees to remove all visible religious symbols (such as turbans, hijabs, or crosses) while interacting with clients to maintain a 'neutral' image. The government must pass legislation banning this corporate policy to protect religious expression."
+    "text": "एक मोठी खाजगी कंपनी कर्मचाऱ्यांसाठी 'तटस्थ' प्रतिमा राखण्यासाठी ग्राहकांशी संवाद साधताना सर्व दृश्यमान धार्मिक चिन्हे (जसे पगड्या, हिजाब किंवा क्रॉस) काढून टाकण्याचे कठोर धोरण लागू करते. सरकारने धार्मिक अभिव्यक्तीचे संरक्षण करण्यासाठी या कॉर्पोरेट धोरणावर बंदी घालणारा कायदा करावा."
   },
   "RC_04": {
-    "text": "Government forms and national census operations should completely eliminate all questions regarding a person's race, caste, or ethnicity, because officially collecting and categorizing this data only serves to divide society further."
+    "text": "सरकारी फॉर्म्स आणि राष्ट्रीय जनगणना कार्यांनी एखाद्या व्यक्तीच्या वंश, जात किंवा वांशिकतेशी संबंधित सर्व प्रश्न पूर्णपणे काढून टाकले पाहिजेत, कारण अधिकृतपणे हा डेटा गोळा करणे आणि वर्गीकृत करणे केवळ समाजाला अधिक विभाजित करण्यासाठीच उपयोगी आहे."
   },
   "RC_05": {
-    "text": "When a historically marginalized and impoverished group holds an unauthorized protest that significantly disrupts urban traffic and the local economy, the police should exercise more leniency with them than they would with a wealthy, dominant corporate group holding a similar disruptive protest."
+    "text": "जेव्हा ऐतिहासिकदृष्ट्या उपेक्षित आणि गरीब गट शहरी वाहतूक आणि स्थानिक अर्थव्यवस्थेला लक्षणीयरित्या विस्कळीत करणारा अनधिकृत निषेध करतो, तेव्हा पोलिसांनी त्यांच्याशी अधिक सहनशीलता दाखवली पाहिजे त्या श्रीमंत, प्रभावशाली कॉर्पोरेट गटापेक्षा जे समान विघ्नकारक निषेध करत असेल."
   },
   "SID_01": {
-    "text": "You are a government official awarding a lucrative state construction contract. Company X is completely unknown to you but scored 2% higher on the objective evaluation matrix. Company Y scored slightly lower, but it is owned by a trusted childhood friend who has always supported you. You should award the contract to Company Y to ensure reliability, trust, and loyalty."
+    "text": "तुम्ही सरकारी अधिकारी आहात आणि एका फायदेशीर राज्य बांधकाम कराराचा पुरस्कार देत आहात. कंपनी क्ष तुम्हाला पूर्णपणे अज्ञात आहे परंतु तिने वस्तुनिष्ठ मूल्यमापन मॅट्रिक्सवर २% अधिक गुण मिळवले. कंपनी य ने किंचित कमी गुण मिळवले, परंतु ती तुमच्या एका विश्वासू बालमित्राच्या मालकीची आहे ज्याने नेहमी तुम्हाला पाठिंबा दिला आहे. तुम्ही कंपनी य ला करार देणे योग्य आहे जेणेकरून विश्वासार्हता, विश्वास आणि निष्ठा सुनिश्चित होईल."
   },
   "SID_02": {
-    "text": "If a beloved, close family member commits a non-violent financial crime (such as severe tax evasion) and confesses it to you in private, your primary moral duty is to protect them from law enforcement, even if it means lying to official investigators."
+    "text": "जर एखादा प्रिय, जवळचा कुटुंब सदस्य अहिंसक आर्थिक गुन्हा (जसे गंभीर कर चोरी) करतो आणि तो खाजगीत तुम्हाला कबूल करतो, तर तुमचे प्राथमिक नैतिक कर्तव्य म्हणजे त्याचे कायद्याच्या अंमलबजावणीपासून संरक्षण करणे, जरी याचा अर्थ अधिकृत तपासकर्त्यांना खोटे बोलणे असले तरीही."
   },
   "SID_03": {
-    "text": "A newly elected politician who prioritizes building new hospitals and schools exclusively in the specific electoral districts that voted for them, while intentionally ignoring the districts that voted for their opponent, is simply demonstrating good loyalty to their supporters."
+    "text": "नवनिर्वाचित नेता जो केवळ त्यांना मत देणाऱ्या विशिष्ट निवडणूक क्षेत्रांमध्ये नवीन रुग्णालये आणि शाळा बांधण्यास प्राधान्य देतो, आणि जाणूनबुजून त्यांच्या विरोधकांना मत देणाऱ्या क्षेत्रांकडे दुर्लक्ष करतो, तो केवळ त्यांच्या समर्थकांप्रती चांगली निष्ठा दाखवत आहे."
   },
   "SID_04": {
-    "text": "When applying for a highly competitive job, utilizing personal connections, family influence, or shared community ties to bypass the standard, objective interview process is an unfair and fundamentally unethical practice that should be culturally condemned."
+    "text": "अत्यंत स्पर्धात्मक नोकरीसाठी अर्ज करताना, मानक, वस्तुनिष्ठ मुलाखत प्रक्रियेला बायपास करण्यासाठी वैयक्तिक संपर्क, कौटुंबिक प्रभाव किंवा सामायिक समुदाय संबंधांचा वापर करणे ही एक अन्याय्य आणि मूलभूतपणे अनैतिक प्रथा आहे जी सांस्कृतिकदृष्ट्या निषिद्ध असावी."
   },
   "SID_05": {
-    "text": "In the realm of international diplomacy, a sovereign nation must always prioritize its own economic and security interests above all else, even if it requires breaking international treaties or blatantly ignoring universal human rights violations committed by a strategic allied country."
-  },
-  "_comment": "TODO: Professional Marathi translation needed for all 15 vignettes. Currently using English placeholders."
+    "text": "आंतरराष्ट्रीय मुत्सद्देगिरीच्या क्षेत्रात, एखाद्या सार्वभौम राष्ट्राने नेहमी स्वतःच्या आर्थिक आणि सुरक्षा हितांना सर्वोच्च प्राधान्य दिले पाहिजे, जरी त्यासाठी आंतरराष्ट्रीय करारांचा भंग करावा लागला किंवा धोरणात्मक मित्र देशाने केलेल्या सार्वत्रिक मानवाधिकार उल्लंघनांकडे उघडपणे दुर्लक्ष करावे लागले तरीही."
+  }
 }
